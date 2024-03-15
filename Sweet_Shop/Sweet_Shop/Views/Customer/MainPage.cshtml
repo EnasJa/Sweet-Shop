@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <div class="section-section">
+        <h1 class="contained-heading">
+            <span class="contained-heading">Sweets And Treats Enjoy!</span>
+        </h1>
+        <div class="image-container">
+            <img src="https://i.pinimg.com/736x/19/20/4a/19204ae8754e955958bfdee4ead7e8c9.jpg" alt="תמונה">
+        </div>
+    </div>
+</head>
+<body>
+    <div class="category-container">
+        <h2 class="category-title">Category</h2>
+    </div>
+
+    <div class="category-images">
+		<a href="page1.html"> 
+            <img src="https://i.pinimg.com/736x/57/84/8f/57848f416196b791094f86ba5c0bcab2.jpg" alt="Image 1" class="category-image">
+            </a>
+       
+        <img src="https://i.pinimg.com/736x/b4/79/01/b4790196bceea835347e8eeedebfc08b.jpg" alt="Image 2" class="category-image">
+        <img src="https://i.pinimg.com/736x/6c/4e/90/6c4e90c9766b051a3786e3b2aafd23b4.jpg" alt="Image 3" class="category-image">
+        <img src="https://i.pinimg.com/736x/d3/69/cf/d369cfe16eaff8ce0eb0eea55cf079de.jpg" alt="Image 4" class="category-image">
+        
+    </div>
+</body>
+    <style>
+       
+        .section-section {
+            background-color: white; /* רקע לבן */
+            width: 80%; /* רוחב האזור */
+            margin: 0 auto; /* להתקין את המלבן באמצע העמוד */
+            padding: 40px; /* מרווח בתוך האזור */
+            display: flex; /* פריסת פלקס לתצוגת התמונה והטקסט */
+            align-items: center; /* מירוץ ומיושרות של פריטי הפלקס */
+        }
+
+        .contained-heading {
+        color: #524347; 
+            font-family: Fantasy, sans-serif; /* פונט משפט */
+            font-size: 49px; /* גודל הפונט */
+            margin-right: 0px; /* מרווח בין הטקסט לתמונה */
+        }
+
+        .image-container {
+            flex:1; /* התמונה תמלא את השטח הפנוי שנותר */
+            margin-left: 0px; /* מרווח בין התמונה לכותרת */
+        }
+
+        .image-container img {
+            max-width: 80%; /* מקסימום רוחב לתמונה */
+            height: auto; /* תמונה עם יחסי רוחב-גובה נכונים */
+        }
+
+    .category-container {
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+    }
+
+    .category-title {
+        color: #524347;
+        font-family: Fantasy, sans-serif;
+        font-size: 15px;
+    }
+
+     .category-image {
+            max-width: 200px; /* רוחב מקסימלי של כל תמונה */
+            height:  auto; /* תמונה עם יחסי רוחב-גובה נכונים */
+            border-radius: 8px; /* סיבוב פינות */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל לתמונה */
+            cursor: pointer; /* סמן עכבר כמו לחצן */
+            transition: transform 0.3s ease; /* אנימציה על תנועה */
+        }
+
+        .category-image:hover {
+            transform: scale(1.05); /* הגדלת התמונה בעת העברת העכבר מעליה */
+        }
+
+    
+        
+    </style>
+
+
+</html>
