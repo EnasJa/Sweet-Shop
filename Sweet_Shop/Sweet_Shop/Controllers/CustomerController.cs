@@ -13,7 +13,7 @@ namespace Sweet_Shop.Controllers
         public CustomerController(IConfiguration configuration)
         {
             _configuration = configuration;
-            connectionString = _configuration.GetConnectionString("connectStringforCustomer");
+            connectionString = _configuration.GetConnectionString("connectString");
         }
         public IActionResult Index()
         {
@@ -27,16 +27,16 @@ namespace Sweet_Shop.Controllers
 
 
 
-
-        //public IActionResult CustomerRegistration()
-        //{
-        //    CustomerModel customer = new CustomerModel();
-        //    return View("CustomerRegistration", customer);
-        //}
-
         [Route("")]
+        public IActionResult CustomerRegistration()
+        {
+          
 
-        public IActionResult CustomerRegistration(CustomerModel customer)
+           // CustomerModel customer = new CustomerModel(Request.Form["CustomerID"].ToString(), Request.Form["firstName"].ToString(), Request.Form["lastName"].ToString(), Request.Form["email"].ToString(), Request.Form["phone"].ToString(), Request.Form["address"].ToString());
+            return View("CustomerRegistration", new CustomerModel());
+        }
+        [HttpPost]
+        public IActionResult cheackCustomerRegistration(CustomerModel customer)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace Sweet_Shop.Controllers
                     string query = "INSERT INTO Customer (CustomerID, FirstName, LastName, Email, Phone, CAddress) VALUES (@value1,@value2, @value3, @value4, @value5, @value6)";
 
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@value1", 57968);
+                    command.Parameters.AddWithValue("@value1", customer.CustomerID);
                     command.Parameters.AddWithValue("@value2", customer.FirstName);
                     command.Parameters.AddWithValue("@value3", customer.LastName);
                     command.Parameters.AddWithValue("@value4", customer.Email); 
@@ -72,4 +72,11 @@ namespace Sweet_Shop.Controllers
             return View("CustomerRegistration");
         }
     }
-    }
+}    
+    // זהו דרישה חשובה כדי לאפשר נגישות לפעולה באמצעות HTTP POST
+        //public IActionResult CustomerRegistration_r(CustomerModel customer)
+        //{
+        //    // Now you can proceed with your database insertion logic
+
+        //    return RedirectToAction("cheackCustomerRegistration", customer);
+        //}
