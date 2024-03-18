@@ -19,7 +19,7 @@ namespace Sweet_Shop.Controllers
         {
             return View();
         }
-        //[Route("")]
+        [Route("")]
         public IActionResult MainPage()
         {
             return View("MainPage");
@@ -27,7 +27,7 @@ namespace Sweet_Shop.Controllers
 
 
 
-        [Route("")]
+        //[Route("")]
         public IActionResult CustomerRegistration()
         {
           
