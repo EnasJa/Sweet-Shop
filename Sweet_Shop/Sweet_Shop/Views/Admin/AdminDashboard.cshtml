@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    <link rel="stylesheet" type="text/css" href="admin-dashboard.css">
+}
+
+<div class="container">
+    <h1>Welcome to the Admin Dashboard</h1>
+
+    <div>
+        <h2>Actions:</h2>
+        <ul>
+            <li><a asp-controller="Customer" asp-action="CustomerList">View Customer List</a></li>
+            <li><a asp-controller="Product" asp-action="ProductList">View Product List</a></li>
+            <!-- וכן הלאה עבור כל פעילות נוספת -->
+        </ul>
+    </div>
+</div>
+<style>
+    /* עיצוב כללי */
+    body {
+        font-family: Fantasy, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #0366d6;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>

@@ -31,6 +31,10 @@ namespace Sweet_Shop.Models
         [RegularExpression(@"^[A-Za-z\s\d.,'-]+$", ErrorMessage = "Invalid Address")]
         public string CAddress { get; set; }
 
+        [Required(ErrorMessage = "Password is required")]
+        [RegularExpression(@"^[a-zA-Z0-9]{8,}$", ErrorMessage = "Password must be at least 8 characters long and contain only letters and numbers")]
+        public string Password { get; set; }
+
         public CustomerModel()
         {
             CustomerID = "";
@@ -39,11 +43,12 @@ namespace Sweet_Shop.Models
             Email = "";
             Phone = "";
             CAddress = "";
+            Password = "";
         }
 
 
         // Parameterized constructor
-        public CustomerModel(string customerId, string firstName, string lastName, string email, string phone, string cAddress)
+        public CustomerModel(string customerId, string firstName, string lastName, string email, string phone, string cAddress,string password)
         {
             CustomerID = customerId;
             FirstName = firstName;
@@ -51,6 +56,7 @@ namespace Sweet_Shop.Models
             Email = email;
             Phone = phone;
             CAddress = cAddress;
+            Password = password;
         }
     }
 }
