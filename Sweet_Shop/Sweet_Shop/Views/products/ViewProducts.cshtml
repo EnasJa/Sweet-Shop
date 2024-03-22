@@ -1,0 +1,156 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Sweet_Shop.Models.Product>
+
+
+@{
+    ViewData["Title"] = "Product Store";
+}
+
+<h1 class="text-center mb-4">Product Store</h1>
+
+
+
+<head>
+    <style>
+        form.form-inline {
+          display: flex;
+          align-items: center; /* Vertically align elements */
+          margin-bottom: 15px; /* Add some space below the form */
+        }
+
+        .form-group {
+          margin-right: 15px; /* Space between elements */
+        }
+
+        .btn-add-product {
+          background-color: #5bc0de; /* Adjust color as needed */
+          border-color: #46b8da; /* Adjust border color as needed */
+          color: white; /* Make text white */
+        }
+
+        .btn-primary {
+          /* Customize primary button colors as needed */
+        }
+
+
+
+          .form-group {
+            margin-bottom: 10px; /* Add some space between elements vertically */
+          }
+        }
+
+
+    </style>
+</head>
+
+
+
+ <style>
+ /* Style the dropdown container */
+.input-group {
+  /* Adjust width as needed */
+  width: 200px;
+}
+
+/* Style the dropdown select element */
+.form-select {
+  /* Remove default border */
+  border: none;
+  /* Add some padding */
+  padding: 5px 10px;
+  /* Add a subtle border on hover */
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Style the dropdown select element on hover */
+.form-select:hover {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+<!-- Add Product button -->
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form asp-action="ViewProducts" asp-controller="Products" method="get" class="form-inline">
+                <div class="form-group">
+                    <a href="/Products/AddProduct" class="btn btn-primary btn-add-product">Add Product</a>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="sortOrder" id="sortOrder" onchange="this.form.submit()">
+                        <option value="">Sort By</option>
+                        <option value="name_asc">A - Z</option>
+                        <option value="name_desc">Z - A</option>
+                        <option value="price_asc">Price Ascending</option>
+                        <option value="price_desc">Price Descending</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="category" id="category" class="form-control" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        <option value="Raw materials for baking">Raw materials for baking</option>
+                        <option value="Icing and decorating cakes">Icing and decorating cakes</option>
+                        <option value="Cake packaging">Cake packaging</option>
+                        <option value="Baking Tools">Baking Tools</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="IsOnSale" id="IsOnSale" class="form-control" onchange="this.form.submit()">
+                        <option value="">All Products</option>
+                        <option value="true">On Sale</option>
+                        <option value="false">Not On Sale</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+                <a asp-action="ViewProducts" asp-controller="Products" class="btn btn-secondary ml-2">Reset</a>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var product in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="@product.imageUrl" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">Category: @product.category</p>
+                        <p class="card-text">
+                            @if (product.IsOnSale)
+                            {
+                                <span class="sale-price">Sale: $@product.salePrice</span>
+                                <span class="original-price">$<del>@product.price</del></span>
+                            }
+                            else
+                            {
+                                <span class="regular-price">$@product.price</span>
+                            }
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">Stock: @product.stock</small>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-secondary">Add to Cart</a>
+                        <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="btn btn-primary">Details</a>
+                        <a href="@Url.Action("UpdateProduct", "Products", new { id = product.Id })" class="btn btn-warning">Edit</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

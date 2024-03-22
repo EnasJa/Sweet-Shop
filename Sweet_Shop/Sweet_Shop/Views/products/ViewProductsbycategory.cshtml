@@ -1,0 +1,37 @@
+﻿  @* 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 *@
+
+
+@model IEnumerable<Sweet_Shop.Models.Product>
+
+@{
+    ViewData["Title"] = "Products by Category";
+    string category = ViewBag.Category;
+}
+
+<div class="container">
+    <h1 class="text-center my-4">@(string.IsNullOrEmpty(category) ? "All Products" : $"Products in '{category}' Category")</h1>
+
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@product.imageUrl" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">Category: @product.category</p>
+                        <p class="card-text">Price: $@product.GetFinalPrice()</p>
+                        <p class="card-text">Stock: @product.stock</p>
+                        @if (product.IsOnSale)
+                        {
+                            <p class="card-text text-danger">On Sale: $@product.salePrice</p>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

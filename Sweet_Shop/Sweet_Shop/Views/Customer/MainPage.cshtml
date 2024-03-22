@@ -16,30 +16,41 @@
         <h2 class="category-title">Category</h2>
     </div>
 
-    
 
     <div class="category-images">
         <div class="image-container">
             <h3>Raw materials for baking</h3>
-            <a href="#">
+            <a asp-controller="Products" asp-action="ViewProducts" asp-route-category="Raw materials for baking">
                 <img src="https://i.pinimg.com/736x/57/84/8f/57848f416196b791094f86ba5c0bcab2.jpg" alt="Image 1" class="category-image">
             </a>
         </div>
 
+
         <div class="image-container">
-            <h3>Baking Tools</h3>
-            <img src="https://i.pinimg.com/736x/b4/79/01/b4790196bceea835347e8eeedebfc08b.jpg" alt="Image 2" class="category-image">
+            <h3>Baking Tools</h3>
+            <a asp-controller="Products" asp-action="ViewProducts" asp-route-category="Baking Tools">
+                <img src="https://i.pinimg.com/736x/b4/79/01/b4790196bceea835347e8eeedebfc08b.jpg" alt="Baking Tools" class="category-image">
+            </a>
         </div>
 
         <div class="image-container">
             <h3>Icing and decorating cakes</h3>
-            <img src="https://i.pinimg.com/736x/6c/4e/90/6c4e90c9766b051a3786e3b2aafd23b4.jpg" alt="Image 3" class="category-image">
+            <a asp-controller="Products" asp-action="ViewProducts" asp-route-category="Icing and decorating cakes">
+                <img src="https://i.pinimg.com/736x/6c/4e/90/6c4e90c9766b051a3786e3b2aafd23b4.jpg" alt="Icing and decorating cakes" class="category-image">
+            </a>
         </div>
 
         <div class="image-container">
             <h3>Cake packaging</h3>
-            <img src="https://i.pinimg.com/736x/d3/69/cf/d369cfe16eaff8ce0eb0eea55cf079de.jpg" alt="Image 4" class="category-image">
+            <a asp-controller="Products" asp-action="ViewProducts" asp-route-category="Cake packaging">
+
+                <img src="https://i.pinimg.com/736x/d3/69/cf/d369cfe16eaff8ce0eb0eea55cf079de.jpg" alt="Cake packaging" class="category-image">
+            </a>
         </div>
+    </div>
+
+    <div class="category-container">
+        <a class="category-title" asp-area="" asp-controller="Products" asp-action="viewproducts">All Products</a>
     </div>
 
 </body>

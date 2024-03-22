@@ -1,0 +1,31 @@
+﻿@model Sweet_Shop.Models.Product
+
+@{
+    ViewData["Title"] = "Update Product";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="UpdateProduct" asp-route-id="@Model.Id" method="post">
+    <div>
+        <label asp-for="Name">Name:</label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="price">Price:</label>
+        <input asp-for="price" />
+    </div>
+    <div>
+        <label asp-for="salePrice">Sale Price:</label>
+        <input asp-for="salePrice" />
+    </div>
+    <div>
+        <label asp-for="IsOnSale">On Sale:</label>
+        <input asp-for="IsOnSale" type="checkbox" />
+    </div>
+    <div>
+        <label asp-for="stock">Stock:</label>
+        <input asp-for="stock" />
+    </div>
+    <button type="submit">Update</button>
+</form>
