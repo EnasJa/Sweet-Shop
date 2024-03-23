@@ -50,8 +50,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcYWRkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/manageProducts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcbWFuYWdlUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/UpdateProduct.cshtml]

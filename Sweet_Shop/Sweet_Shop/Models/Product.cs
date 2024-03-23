@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 
 namespace Sweet_Shop.Models
 {
@@ -79,6 +80,6 @@ namespace Sweet_Shop.Models
             return (decimal)(IsOnSale ? salePrice : price);
         }
 
-
+       
     }
 }

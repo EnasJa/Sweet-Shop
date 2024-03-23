@@ -1,0 +1,151 @@
+﻿@model List<Sweet_Shop.Models.Product>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Products</title>
+    <style>
+        /* עיצוב כללי */
+        body {
+            font-family: Fantasy, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px; /* Increased max-width */
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Products</h2>
+        <p>
+            
+            <button> <a asp-action="AddProduct"> Create New</a></button>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].stock)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].salePrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].imageUrl)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].IsOnSale)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.salePrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.imageUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.category)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsOnSale)
+                        </td>
+                        <td>
+                            <a asp-action="showProductEdit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿@model Sweet_Shop.Models.Product
+
+
+<h2>Delete Product</h2>
+<p>Are you sure you want to delete the following product?</p>
+<div>
+    <h4>Product Information:</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID:</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+        <dt class="col-sm-2">Name:</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <!-- Add other product properties here -->
+    </dl>
+    <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="ManageProducts" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

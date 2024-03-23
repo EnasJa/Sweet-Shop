@@ -1,5 +1,5 @@
 ﻿
-@*     anfalanfalanfalanfalanfalanfal *@
+@*     anfalanfalanfalanfalanfalanfal
 @model Sweet_Shop.Models.Product
 
 @{
@@ -7,7 +7,63 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<style>
+    /* CSS styles provided by you */
+    body {
+        font-family: Fantasy, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
 
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 8px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #007bff; /* Bootstrap's primary color */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    .text-danger {
+        color: #dc3545; /* Bootstrap's danger color */
+    }
+</style>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddProduct">
@@ -65,3 +121,130 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+ *@
+
+
+@* AddProduct.cshtml *@
+@model Sweet_Shop.Models.Product
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        /* CSS styles provided by you */
+        body {
+            font-family: Fantasy, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff; /* Bootstrap's primary color */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3; /* Darker shade on hover */
+            }
+
+        .text-danger {
+            color: #dc3545; /* Bootstrap's danger color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>@ViewData["Title"]</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="AddProduct">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="price" class="control-label"></label>
+                        <input asp-for="price" class="form-control" />
+                        <span asp-validation-for="price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="stock" class="control-label"></label>
+                        <input asp-for="stock" class="form-control" />
+                        <span asp-validation-for="stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="salePrice" class="control-label"></label>
+                        <input asp-for="salePrice" class="form-control" />
+                        <span asp-validation-for="salePrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="imageUrl" class="control-label"></label>
+                        <input asp-for="imageUrl" class="form-control" />
+                        <span asp-validation-for="imageUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="category" class="control-label"></label>
+                        <select asp-for="category" class="form-control" asp-items="@(new SelectList(ViewBag.Categories))">
+                            <option value="">-- Select Category --</option>
+                        </select>
+                        <span asp-validation-for="category" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsOnSale" /> @Html.DisplayNameFor(model => model.IsOnSale)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

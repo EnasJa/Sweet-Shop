@@ -19,5 +19,13 @@ namespace Sweet_Shop.Models
             AdminID = adminID;
             Password = password;
         }
+        public bool IsAdmin
+        {
+            get
+            {
+                // Example logic: check if AdminID starts with "admin_" to determine admin status
+                return AdminID.StartsWith("admin_");
+            }
+        }
     }
 }

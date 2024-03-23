@@ -9,7 +9,7 @@
 @{
     ViewData["Title"] = "Product Store";
 }
-
+@* 
 <h1 class="text-center mb-4">Product Store</h1>
 
 
@@ -154,3 +154,158 @@
     </div>
 </div>
 
+ *@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Product Management</title>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        } */
+
+        .create-account-link {
+            color: #524347; /* Change to whatever color you prefer */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Fantasy, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            padding: 10px;
+            background-color: #524347;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #524347;
+        }
+
+        .form-control {
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        .form-control:focus {
+            border-color: #66afe9;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form asp-action="ViewProducts" asp-controller="Products" method="get" class="form-inline">
+@*                     <div class="form-group">
+                        <a href="/Products/AddProduct" class="btn btn-primary btn-add-product">Add Product</a>
+                    </div> *@
+                    <div class="form-group">
+                        <select class="form-control" name="sortOrder" id="sortOrder" onchange="this.form.submit()">
+                            <option value="">Sort By</option>
+                            <option value="name_asc">A - Z</option>
+                            <option value="name_desc">Z - A</option>
+                            <option value="price_asc">Price Ascending</option>
+                            <option value="price_desc">Price Descending</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="category" id="category" class="form-control" onchange="this.form.submit()">
+                            <option value="">Sort By Categories</option>
+                            <option value="Raw materials for baking">Raw materials for baking</option>
+                            <option value="Icing and decorating cakes">Icing and decorating cakes</option>
+                            <option value="Cake packaging">Cake packaging</option>
+                            <option value="Baking Tools">Baking Tools</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="IsOnSale" id="IsOnSale" class="form-control" onchange="this.form.submit()">
+                            <option value="">Is On Sale?</option>
+                            <option value="true">On Sale</option>
+                            <option value="false">Not On Sale</option>
+                        </select>
+                    </div>
+                    @* <button type="submit" class="btn btn-primary">Apply Filters</button> *@
+                    <a asp-action="ViewProducts" asp-controller="Products" class="btn btn-secondary ml-2">Reset</a>
+                </form>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var product in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="@product.imageUrl" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">Category: @product.category</p>
+                            <p class="card-text">
+                                @if (product.IsOnSale)
+                                {
+                                    <span class="sale-price">Sale: $@product.salePrice</span>
+                                    <span class="original-price">$<del>@product.price</del></span>
+                                }
+                                else
+                                {
+                                    <span class="regular-price">$@product.price</span>
+                                }
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">Stock: @product.stock</small>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="btn btn-primary">Details</a>
+                            @* <a href="@Url.Action("UpdateProduct", "Products", new { id = product.Id })" class="btn btn-warning">Edit</a> *@
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

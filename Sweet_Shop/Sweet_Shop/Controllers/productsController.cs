@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using Sweet_Shop.ViewModels;
 using System;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Routing;
 //using Dapper;
 
 namespace Project.Controllers
@@ -62,7 +64,7 @@ namespace Project.Controllers
                         if (rowsAffected > 0)
                         {
                             // Insertion successful
-                            return RedirectToAction("viewproducts");
+                            return RedirectToAction("manageProducts");
                         }
                         else
                         {
@@ -82,79 +84,6 @@ namespace Project.Controllers
             ViewBag.Categories = new List<string> { "Raw materials for baking ", "Icing and decorating cakes", "Cake packaging", "Baking Tools" };
             return View("addProduct", product);
         }
-
-
-
-
-
-
-        //public IActionResult ViewProductsByCategory(string category)
-        //{
-        //    List<Product> products = GetProductsByCategory(category);
-        //    ViewBag.Category = category;
-        //    return View(products);
-        //}
-
-        //private List<Product> GetProductsByCategory(string category)
-        //{
-        //    List<Product> products = new List<Product>();
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        string query = "SELECT * FROM Products";
-
-        //        if (!string.IsNullOrEmpty(category))
-        //        {
-        //            query += " WHERE category = @Category";
-        //        }
-
-        //        SqlCommand command = new SqlCommand(query, connection);
-
-        //        if (!string.IsNullOrEmpty(category))
-        //        {
-        //            command.Parameters.AddWithValue("@Category", category);
-        //        }
-
-        //        connection.Open();
-        //        SqlDataReader reader = command.ExecuteReader();
-
-        //        while (reader.Read())
-        //        {
-        //            int id = reader.GetInt32(reader.GetOrdinal("Id"));
-        //            string name = reader.GetString(reader.GetOrdinal("Name"));
-        //            double price = reader.GetDouble(reader.GetOrdinal("Price"));
-        //            int stock = reader.GetInt32(reader.GetOrdinal("Stock"));
-        //            double salePrice = reader.GetDouble(reader.GetOrdinal("SalePrice"));
-        //            string imageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
-        //            string productCategory = reader.GetString(reader.GetOrdinal("Category"));
-        //            bool isOnSale = reader.GetBoolean(reader.GetOrdinal("IsOnSale"));
-
-        //            Product product = new Product
-        //            {
-        //                Id = id,
-        //                Name = name,
-        //                price = (float)price,
-        //                stock = stock,
-        //                salePrice = (float)salePrice,
-        //                imageUrl = imageUrl,
-        //                category = productCategory,
-        //                IsOnSale = isOnSale
-        //            };
-
-        //            products.Add(product);
-        //        }
-
-        //        reader.Close();
-        //        connection.Close();
-        //    }
-
-        //    return products;
-        //}
-
-
-
-
-
 
 
 
@@ -295,124 +224,232 @@ namespace Project.Controllers
                 reader.Close();
                 connection.Close();
             }
+            return View(products);
+        }
 
+        public IActionResult manageProducts(string sortOrder, string category, string IsOnSale)
+        {
+            List<Product> products = new List<Product>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Id, Name, price, stock, salePrice, imageUrl, category, IsOnSale FROM Products";
+
+                // Build the WHERE clause
+                string whereClause = string.Empty;
+                if (!string.IsNullOrEmpty(category))
+                {
+                    whereClause = " WHERE category = @Category";
+                }
+
+                // Apply IsOnSale filter if specified
+                if (!string.IsNullOrEmpty(IsOnSale))
+                {
+                    if (string.IsNullOrEmpty(whereClause))
+                    {
+                        whereClause = " WHERE IsOnSale = @IsOnSale";
+                    }
+                    else
+                    {
+                        whereClause += " AND IsOnSale = @IsOnSale";
+                    }
+                }
+
+                // Apply sorting based on sortOrder parameter
+                string orderByClause = string.Empty;
+                switch (sortOrder)
+                {
+                    case "price_asc":
+                        orderByClause = " ORDER BY price ASC";
+                        break;
+                    case "price_desc":
+                        orderByClause = " ORDER BY price DESC";
+                        break;
+                    case "name_asc":
+                        orderByClause = " ORDER BY Name ASC";
+                        break;
+                    case "name_desc":
+                        orderByClause = " ORDER BY Name DESC";
+                        break;
+                    default:
+                        break; // No specific sorting
+                }
+
+                query += whereClause + orderByClause;
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                // Add parameters for category and IsOnSale if specified
+                if (!string.IsNullOrEmpty(category))
+                {
+                    command.Parameters.AddWithValue("@Category", category);
+                }
+
+                if (!string.IsNullOrEmpty(IsOnSale))
+                {
+                    // Assuming IsOnSale is boolean in the database, convert IsOnSale string to boolean
+                    bool isOnSaleValue = IsOnSale.Equals("true", StringComparison.OrdinalIgnoreCase);
+                    command.Parameters.AddWithValue("@IsOnSale", isOnSaleValue);
+                }
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Product product = new Product
+                    {
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Name = reader["Name"].ToString(),
+                        price = Convert.ToSingle(reader["price"]),
+                        stock = Convert.ToInt32(reader["stock"]),
+                        salePrice = Convert.ToSingle(reader["salePrice"]),
+                        imageUrl = reader["imageUrl"].ToString(),
+                        category = reader["category"].ToString(),
+                        IsOnSale = Convert.ToBoolean(reader["IsOnSale"])
+                    };
+
+                    products.Add(product);
+                }
+
+                reader.Close();
+                connection.Close();
+            }
             return View(products);
         }
 
 
-
-        //public IActionResult UpdateProduct(int id, Product updatedProduct)
-        //{
-        //    if (id != updatedProduct.Id)
-        //    {
-        //        return BadRequest("ID mismatch between URL and product data.");
-        //    }
-
-        //    // Check if the product exists
-        //    Product existingProduct = GetProductById(id);
-        //    if (existingProduct == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        string query = "UPDATE Products SET price = @Price, salePrice = @SalePrice, IsOnSale = @IsOnSale, stock = @Stock WHERE Id = @Id";
-
-        //        using (SqlCommand command = new SqlCommand(query, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@Price", updatedProduct.price);
-        //            command.Parameters.AddWithValue("@SalePrice", updatedProduct.salePrice);
-        //            command.Parameters.AddWithValue("@IsOnSale", updatedProduct.IsOnSale);
-        //            command.Parameters.AddWithValue("@Stock", updatedProduct.stock);
-        //            command.Parameters.AddWithValue("@Id", id);
-
-        //            int rowsAffected = command.ExecuteNonQuery();
-
-        //            if (rowsAffected == 0)
-        //            {
-        //                return NotFound();
-        //            }
-        //        }
-        //    }
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult UpdateProduct(int id)
-        //{
-        //    Product product = GetProductById(id);
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        string query = "UPDATE Products SET price = @Price, salePrice = @SalePrice, IsOnSale = @IsOnSale, stock = @Stock WHERE Id = @Id";
-
-        //        using (SqlCommand command = new SqlCommand(query, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@Price", product.price);
-        //            command.Parameters.AddWithValue("@SalePrice", product.salePrice);
-        //            command.Parameters.AddWithValue("@IsOnSale", product.IsOnSale);
-        //            command.Parameters.AddWithValue("@Stock", product.stock);
-        //            command.Parameters.AddWithValue("@Id", id);
-
-        //            int rowsAffected = command.ExecuteNonQuery();
-
-        //            if (rowsAffected == 0)
-        //            {
-        //                return NotFound();
-        //            }
-        //        }
-        //    }
-        //    return View();  
-        //    //return RedirectToAction(nameof(Index));
-        //}
-
-
-        public IActionResult UpdateProduct(int id, Product updatedProduct)
+        public IActionResult showProductEdit(int id)
         {
-            if (id != updatedProduct.Id)
+            Product product = GetProductById(id);
+            if (product != null)
             {
-                return BadRequest(); // Id mismatch, return bad request
+                return View("Edit", product);
             }
+            return RedirectToAction("manageProducts");
+        }
 
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+        public IActionResult UpdateProduct(Product updatedProduct)
+        {
+            if (ModelState.IsValid)
             {
-                connection.Open();
-
-                string query = "UPDATE Products SET price = @Price, salePrice = @SalePrice, IsOnSale = @IsOnSale, stock = @Stock WHERE Id = @Id";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+                if (updatedProduct == null)
                 {
-                    command.Parameters.AddWithValue("@Price", updatedProduct.price);
-                    command.Parameters.AddWithValue("@SalePrice", updatedProduct.salePrice);
-                    command.Parameters.AddWithValue("@IsOnSale", updatedProduct.IsOnSale);
-                    command.Parameters.AddWithValue("@Stock", updatedProduct.stock);
-                    command.Parameters.AddWithValue("@Id", id);
 
-                    int rowsAffected = command.ExecuteNonQuery();
 
-                    if (rowsAffected == 0)
+                    Console.WriteLine("1234567890");
+
+                }
+
+                if (Update(updatedProduct)) // Assuming UpdateProduct is a static method in Product class
+                {
+                    Console.WriteLine("The product with id = " + updatedProduct.Id + " has been updated.");
+                    // Optionally, perform additional actions after successful update
+                    return RedirectToAction("manageProducts"); // Redirect to home page or another action
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Unable to update product, please try again later.";
+                    return View("Edit", updatedProduct); // Return to edit view with error message
+                }
+            }
+            else
+            {
+                return View("Edit", updatedProduct); // Return to edit view with validation errors
+            }
+        }
+        private bool Update(Product product)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"UPDATE Products SET Name = @name, Price = @price, Stock = @stock, 
+                             SalePrice = @salePrice, ImageUrl = @imageUrl, Category = @category, 
+                             IsOnSale = @isOnSale WHERE Id = @id";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        return NotFound(); // No rows updated, product not found
+                        command.Parameters.AddWithValue("@name", product.Name);
+                        command.Parameters.AddWithValue("@price", product.price); // Corrected property name
+                        command.Parameters.AddWithValue("@stock", product.stock); // Corrected property name
+                        command.Parameters.AddWithValue("@salePrice", product.salePrice); // Corrected property name
+                        command.Parameters.AddWithValue("@imageUrl", product.imageUrl);
+                        command.Parameters.AddWithValue("@category", product.category);
+                        command.Parameters.AddWithValue("@isOnSale", product.IsOnSale);
+                        command.Parameters.AddWithValue("@id", product.Id);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        return rowsAffected > 0; // true if rows were updated, false otherwise
                     }
                 }
             }
-
-            // Redirect to a view or action method indicating success
-            return View();
+            catch (Exception ex)
+            {
+                // Handle the exception (log, rethrow, etc.)
+                Console.WriteLine("Error updating product: " + ex.Message);
+                return false; // Update failed
+            }
         }
 
+
+
+
+
+
+
+        //GET: Product/Delete/5
+        public IActionResult Delete(int id)
+        {
+            var product = GetProductById(id);
+            if (product == null)
+            {
+                return NotFound(); // Product not found
+            }
+
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            if (DeleteProduct(id)) // delete product from database 
+            {
+                Console.WriteLine("The product with id = " + id + " has been deleted from the website.");
+                return RedirectToAction("ManageProducts");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Unable to remove product, try again later.";
+                return RedirectToAction("ManageProducts");
+            }
+        }
+
+      
+        private bool DeleteProduct(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM Products WHERE Id = @id;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0; // Returns true if rows were affected (product deleted)
+                }
+            }
+        }
+
+
+
+
+
+
     }
-
-
 }
 
 
