@@ -24,13 +24,14 @@
                     </li>*@
                 </ul>
 					<ul class="navbar-nav sign-in-up">
-						<li class="nav-item">
-							<a class="nav-link text-dark" href="/checkout">
-								<!-- כאן עליך לשנות את ה-URL לכתובת המדויקת של דף התשלום -->
-								<div class="gg-shopping-cart"></div>
-							</a>
-						</li>
-                   
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ShoppingCart" asp-action="CartPage">
+                                <!-- Here you can include any icon or text for the cart -->
+                                <div class="gg-shopping-cart"> </div>
+						
+						</a>
+                        </li>
+                        <li class="nav-link text-dark"><span id="cart-item-count"></span></li>
                     <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="LogInForCustomer">sign in/sign up</a>
                     </li>
@@ -59,5 +60,18 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Retrieve cart items from localStorage
+            var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+            // Display cart item count
+            $("#cart-item-count").text("(" + cartItems.length + ")");
+        });
+    </script>
+    
 </body>
+
 </html>

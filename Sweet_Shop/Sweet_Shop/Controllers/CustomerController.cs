@@ -14,7 +14,7 @@ namespace Sweet_Shop.Controllers
         public CustomerController(IConfiguration configuration)
         {
             _configuration = configuration;
-            connectionString = _configuration.GetConnectionString("connectString");
+            connectionString = _configuration.GetConnectionString("database");
         }
         public IActionResult Index()
         {
@@ -34,35 +34,50 @@ namespace Sweet_Shop.Controllers
         [HttpPost]
         public IActionResult checkLogInForCustomer(CustomerModel customer)
         {
-           
-                // בצע שאילתת SQL כדי לבדוק האם ה-ID והסיסמה קיימים בבסיס הנתונים
-                using (SqlConnection connection = new SqlConnection(connectionString))
+
+            // בצע שאילתת SQL כדי לבדוק האם ה-ID והסיסמה קיימים בבסיס הנתונים
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT CustomerID, FirstName, LastName, Email, Phone, CAddress FROM Customer WHERE CustomerID = @CustomerID AND Password = @Password";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                command.Parameters.AddWithValue("@Password", customer.Password);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
                 {
-                    connection.Open();
-                    string query = "SELECT COUNT(*) FROM Customer WHERE CustomerID = @CustomerID AND Password = @Password";
+                    // Data found, login is successful
+                    // Populate the CustomerModel object with retrieved data
+                    CustomerModel loggedInCustomer = new CustomerModel(
+                        customerId: reader["CustomerID"].ToString(),
+                        firstName: reader["FirstName"].ToString(),
+                        lastName: reader["LastName"].ToString(),
+                        email: reader["Email"].ToString(),
+                        phone: reader["Phone"].ToString(),
+                        cAddress: reader["CAddress"].ToString(),
+                        password: customer.Password // You may want to set the password from the provided parameter
+                    );
 
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
-                    command.Parameters.AddWithValue("@Password", customer.Password);
+                    HttpContext.Session.Clear();
 
-                    int count = (int)command.ExecuteScalar();
+                    // Store authenticated customer ID and email in session
+                    HttpContext.Session.SetString("CustomerID", reader["CustomerID"].ToString());
+                    HttpContext.Session.SetString("CustomerEmail", reader["Email"].ToString());
 
-                    if (count > 0)
-                    {
-                        // ה-ID והסיסמה תואמים, אז הכניסה מוצלחת
-                        // שמור כתובת אימייל ב-Session
-                       
-
-                        return RedirectToAction("MainPage");
-                    }
-                    else
-                    {
-                        // ה-ID או הסיסמה לא תואמים, תחזור לדף ההתחברות עם הודעת שגיאה
-                        ViewBag.ErrorMessage = "Invalid ID or password";
-                        return View("LogInForCustomer");
-                    }
+                    return RedirectToAction("MainPage");
+                }
+                else
+                {
+                    // ID or password do not match, return to login page with error message
+                    ViewBag.ErrorMessage = "Invalid ID or password";
+                    return View("LogInForCustomer");
                 }
             }
+        
+        }
 
             // ModelState אינו תקין, תחזור לדף ההתחברות עם הודעת שגיאה
           

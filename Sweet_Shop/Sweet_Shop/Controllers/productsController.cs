@@ -38,12 +38,104 @@ namespace Project.Controllers
             return View();
         }
 
+        //public IActionResult AddProduct(Product product)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            using (SqlConnection connection = new SqlConnection(connectionString))
+        //            {
+        //                connection.Open();
+        //                string query = "INSERT INTO Products (Name, Price, Stock, SalePrice, ImageUrl, Category, IsOnSale) " +
+        //                               "VALUES (@Name, @Price, @Stock, @SalePrice, @ImageUrl, @Category, @IsOnSale)";
+
+        //                SqlCommand command = new SqlCommand(query, connection);
+        //                command.Parameters.AddWithValue("@Name", product.Name);
+        //                command.Parameters.AddWithValue("@Price", product.price);
+        //                command.Parameters.AddWithValue("@Stock", product.stock);
+        //                command.Parameters.AddWithValue("@SalePrice", product.salePrice);
+        //                command.Parameters.AddWithValue("@ImageUrl", product.imageUrl);
+        //                command.Parameters.AddWithValue("@Category", product.category);
+        //                command.Parameters.AddWithValue("@IsOnSale", product.IsOnSale);
+
+        //                int rowsAffected = command.ExecuteNonQuery();
+
+        //                if (rowsAffected > 0)
+        //                {
+        //                    // Insertion successful
+        //                    return RedirectToAction("manageProducts");
+        //                }
+        //                else
+        //                {
+        //                    // Insertion failed
+        //                    ViewBag.Message = "Failed to insert product data.";
+        //                    return View("addProduct", product);
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Handle exceptions, log errors, etc.
+        //            ViewBag.Message = "An error occurred while processing the request.";
+        //            return View("addProduct", product);
+        //        }
+        //    }
+        //    ViewBag.Categories = new List<string> { "Raw materials for baking ", "Icing and decorating cakes", "Cake packaging", "Baking Tools" };
+        //    return View("addProduct", product);
+        //}
+        private bool SQLCheckProduct(string productName, string imageUrl)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Check if product with the given name already exists
+                string queryName = "SELECT COUNT(*) FROM Products WHERE Name = @name;";
+                using (SqlCommand commandName = new SqlCommand(queryName, connection))
+                {
+                    commandName.Parameters.AddWithValue("@name", productName);
+                    int countName = (int)commandName.ExecuteScalar();
+                    if (countName > 0)
+                    {
+                        // Product with the same name already exists
+                        return true;
+                    }
+                }
+
+                // Check if product with the given image URL already exists
+                string queryImageUrl = "SELECT COUNT(*) FROM Products WHERE ImageUrl = @imageUrl;";
+                using (SqlCommand commandImageUrl = new SqlCommand(queryImageUrl, connection))
+                {
+                    commandImageUrl.Parameters.AddWithValue("@imageUrl", imageUrl);
+                    int countImageUrl = (int)commandImageUrl.ExecuteScalar();
+                    if (countImageUrl > 0)
+                    {
+                        // Product with the same image URL already exists
+                        return true;
+                    }
+                }
+
+                // If neither product with the given name nor image URL exists, return false
+                return false;
+            }
+        }
+
+
         public IActionResult AddProduct(Product product)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Check if the product already exists
+                    if (SQLCheckProduct(product.Name, product.imageUrl))
+                    {
+                        ViewBag.Message = "Product with the same name or image URL already exists.";
+                        ViewBag.Categories = new List<string> { "Raw materials for baking", "Icing and decorating cakes", "Cake packaging", "Baking Tools" };
+                        return View("addProduct", product);
+                    }
+
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
@@ -81,10 +173,11 @@ namespace Project.Controllers
                     return View("addProduct", product);
                 }
             }
+
+            // If model state is not valid, return the form with validation errors
             ViewBag.Categories = new List<string> { "Raw materials for baking ", "Icing and decorating cakes", "Cake packaging", "Baking Tools" };
             return View("addProduct", product);
         }
-
 
 
         public IActionResult Details(int id)
@@ -101,7 +194,7 @@ namespace Project.Controllers
         }
 
         // Sample method to retrieve a product from the database (replace with your actual logic)
-        private Product GetProductById(int id)
+        public Product GetProductById(int id)
         {
             // Example logic to retrieve product from database
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -226,6 +319,7 @@ namespace Project.Controllers
             }
             return View(products);
         }
+
 
         public IActionResult manageProducts(string sortOrder, string category, string IsOnSale)
         {
@@ -447,9 +541,35 @@ namespace Project.Controllers
 
 
 
+        //// Method to update the stock of the product
+        //public bool UpdateStock(int newStock)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection connection = new SqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            string query = @"UPDATE Products SET Stock = @newStock WHERE Id = @id";
 
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@newStock", newStock);
+
+        //                int rowsAffected = command.ExecuteNonQuery();
+        //                return rowsAffected > 0; // Return true if the update was successful
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle the exception (log, rethrow, etc.)
+        //        Console.WriteLine("Error updating stock: " + ex.Message);
+        //        return false; // Update failed
+        //    }
+        //}
 
     }
+    
 }
 
 

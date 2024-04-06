@@ -240,7 +240,11 @@
                                 <label for="quantity" class="form-label">Quantity:</label>
                                 <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control">
                             </div>
-                            <button class="btn btn-primary">Add to Cart</button>
+                            <a href="#" class="btn btn-success add-to-cart"
+                               data-product-id="@Model.Id"
+                               data-product-name="@Model.Name"
+                               data-product-price="@Model.price"
+                               data-product-image="@Model.imageUrl">Add to Cart</a>
                             <button class="btn btn-success">Buy Now</button>
                         </div>
                     </div>
@@ -248,5 +252,27 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".add-to-cart").click(function () {
+                var productId = $(this).data("product-id");
+                var productName = $(this).data("product-name");
+                var productPrice = $(this).data("product-price");
+                var productImageUrl = $(this).data("product-image");
+
+                var product = {
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    imageUrl: productImageUrl
+                };
+
+                var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+                cartItems.push(product);
+                localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            });
+        });
+    </script>
 </body>
 </html>

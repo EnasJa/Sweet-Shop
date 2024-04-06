@@ -198,6 +198,13 @@
 <body>
     <div class="container">
         <h2>@ViewData["Title"]</h2>
+       
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>
+        }
         <div class="row">
             <div class="col-md-4">
                 <form asp-action="AddProduct">

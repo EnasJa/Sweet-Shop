@@ -53,6 +53,7 @@ namespace Sweet_Shop.Models
             }
         }
 
+        public int quantity { get; internal set; }
 
         public Product() // Default constructor
         {
