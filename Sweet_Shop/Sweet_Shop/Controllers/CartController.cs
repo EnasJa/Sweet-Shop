@@ -126,69 +126,106 @@ public class CartController : Controller
     //         return RedirectToAction("Index");
     //            }
     //        } } }
+    //public IActionResult Checkout()
+    //{
+    //    var cart = GetCart();
+    //    bool insufficientStock = false; // Flag to track insufficient stock
+
+    //    if (cart.CartItems.Any())
+    //    {
+    //        using (SqlConnection connection = new SqlConnection(connectionString))
+    //        {
+    //            connection.Open();
+    //            using (SqlTransaction transaction = connection.BeginTransaction())
+    //            {
+    //                try
+    //                {
+    //                    foreach (var cartItem in cart.CartItems)
+    //                    {
+    //                        var productId = cartItem.Product.Id;
+    //                        var quantity = cartItem.Quantity;
+    //                        // Check if the stock is sufficient for the quantity in the cart
+    //                        bool stockUpdated = CartController.SQLCheckProductStock(productId, quantity, connection, transaction);
+    //                        if (!stockUpdated)
+    //                        {
+    //                            insufficientStock = true; // Set flag to true if stock is insufficient
+    //                            break; // Exit the loop as soon as insufficient stock is found
+    //                        }
+    //                    }
+
+    //                    // If there's insufficient stock, set error message and return to view
+    //                    if (insufficientStock)
+    //                    {
+    //                        ViewData["ErrorMessage"] = "One or more products in your cart have insufficient stock.";
+    //                        return View("Index"); // Return to the view with error message
+    //                    }
+
+    //                    // If all stock checks were successful, proceed to checkout
+    //                    var payment = new PaymentModel
+    //                    {
+    //                        Cart = cart
+    //                    };
+    //                    return View(payment);
+    //                }
+    //                catch (Exception ex)
+    //                {
+    //                    // Handle any exceptions here (e.g., log the error)
+    //                    Console.WriteLine(ex.Message);
+    //                    // Rollback the transaction if an exception occurs
+    //                    transaction.Rollback();
+    //                    // Optionally, you can display an error message or redirect to a failure page
+    //                    return RedirectToAction("OrderFailed");
+    //                }
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        // Handle case where cart is empty
+    //        // Optionally, you can display a message or redirect to a page
+    //        return RedirectToAction("EmptyCart");
+    //    }
+    //}
+
+
     public IActionResult Checkout()
     {
         var cart = GetCart();
-        bool insufficientStock = false; // Flag to track insufficient stock
 
         if (cart.CartItems.Any())
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            // Check if stock is sufficient for each product in the cart
+            bool stockSufficient = true;
+            List<string> outOfStockProducts = new List<string>();
+
+            foreach (var cartItem in cart.CartItems)
             {
-                connection.Open();
-                using (SqlTransaction transaction = connection.BeginTransaction())
+                Product product = GetProductById(cartItem.Product.Id);
+                if (product != null && product.stock < cartItem.Quantity)
                 {
-                    try
-                    {
-                        foreach (var cartItem in cart.CartItems)
-                        {
-                            var productId = cartItem.Product.Id;
-                            var quantity = cartItem.Quantity;
-                            // Check if the stock is sufficient for the quantity in the cart
-                            bool stockUpdated = CartController.SQLCheckProductStock(productId, quantity, connection, transaction);
-                            if (!stockUpdated)
-                            {
-                                insufficientStock = true; // Set flag to true if stock is insufficient
-                                break; // Exit the loop as soon as insufficient stock is found
-                            }
-                        }
-
-                        // If there's insufficient stock, set error message and return to view
-                        if (insufficientStock)
-                        {
-                            ViewData["ErrorMessage"] = "One or more products in your cart have insufficient stock.";
-                            return View("Index"); // Return to the view with error message
-                        }
-
-                        // If all stock checks were successful, proceed to checkout
-                        var payment = new PaymentModel
-                        {
-                            Cart = cart
-                        };
-                        return View(payment);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle any exceptions here (e.g., log the error)
-                        Console.WriteLine(ex.Message);
-                        // Rollback the transaction if an exception occurs
-                        transaction.Rollback();
-                        // Optionally, you can display an error message or redirect to a failure page
-                        return RedirectToAction("OrderFailed");
-                    }
+                    stockSufficient = false;
+                    outOfStockProducts.Add(product.Name);
                 }
             }
+
+            if (stockSufficient)
+            {
+                var payment = new PaymentModel
+                {
+                    Cart = cart
+                };
+                return View(payment);
+            }
+            else
+            {
+                // Display an error message with the list of out-of-stock products
+                ViewBag.ErrorMessage = $"The following products are out of stock or have insufficient quantity: {string.Join(", ", outOfStockProducts)}";
+                return View("Index", cart);
+            }
         }
-        else
-        {
-            // Handle case where cart is empty
-            // Optionally, you can display a message or redirect to a page
-            return RedirectToAction("EmptyCart");
-        }
+
+        return RedirectToAction("Index");
     }
-
-
-
     [HttpPost]
             public IActionResult PlaceOrder(PaymentModel Payment)
             {
