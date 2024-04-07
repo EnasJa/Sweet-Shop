@@ -1,0 +1,59 @@
+﻿@* @model Cart
+
+<h2>Shopping Cart</h2>
+
+@if (Model.CartItems.Any())
+{
+    <ul>
+        @foreach (var cartItem in Model.CartItems)
+        {
+            <li>
+                <h3>@cartItem.Product.Name</h3>
+                <p>Price: @cartItem.Product.GetFinalPrice()</p>
+                <p>Quantity: @cartItem.Quantity</p>
+                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@cartItem.Product.Id">Remove from Cart</a>
+            </li>
+        }
+    </ul>
+
+    <p>Total Amount: @Model.GetTotalAmount()</p>
+}
+else
+{
+    <p>Your cart is empty.</p>
+} *@
+
+@model Cart
+
+<h2>Shopping Cart</h2>
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewData["ErrorMessage"]
+    </div>
+}
+
+@if (Model.CartItems.Any())
+{
+    <ul>
+        @foreach (var cartItem in Model.CartItems)
+        {
+            <li>
+                <h3>@cartItem.Product.Name</h3>
+                <p>Price: @(cartItem.Product.IsOnSale ? cartItem.Product.salePrice : cartItem.Product.price)</p>
+                <p>Quantity: @cartItem.Quantity</p>
+                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@cartItem.Product.Id">Remove from Cart</a>
+            </li>
+        }
+    </ul>
+
+    <p>Total Amount: @Model.GetTotalAmount()</p>
+
+    <a asp-controller="Cart" asp-action="Checkout" >pay</a>
+
+}
+else
+{
+    <p>Your cart is empty.</p>
+}

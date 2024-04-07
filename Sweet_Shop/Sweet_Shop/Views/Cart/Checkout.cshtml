@@ -1,0 +1,41 @@
+﻿@model PaymentModel
+
+<h2>Checkout</h2>
+
+<form asp-controller="Cart" asp-action="PlaceOrder" method="post">
+  
+    
+    
+
+
+    <div class="payment-container">
+        <h1>Payment Details</h1>
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <!-- Add more product details as needed -->
+@*             <p>Total Price:@Model.Cart.GetTotalAmount() <span id="total-price"></span></p>
+ *@        </div>
+     
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="CardNumber" asp-for="CardNumber">
+            <span asp-validation-for="CardNumber" class="text-danger"></span>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="text" id="expiryDate" name="ExpiryDate" asp-for="ExpiryDate">
+            <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+
+            <label for="cvc">CVC:</label>
+            <input type="text" id="cvc" name="CVC" asp-for="CVC">
+            <span asp-validation-for="CVC" class="text-danger"></span>
+
+            <label for="cardholderID">Cardholder ID:</label>
+            <input type="text" id="cardholderID" name="CardholderID" asp-for="CardholderID">
+            <span asp-validation-for="CardholderID" class="text-danger"></span>
+
+       
+
+    </div>
+
+
+    <button type="submit">Place Order</button>
+</form>

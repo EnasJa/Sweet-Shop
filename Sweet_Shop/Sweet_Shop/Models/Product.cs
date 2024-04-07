@@ -45,10 +45,10 @@ namespace Sweet_Shop.Models
             get { return _category; }
             set
             {
-                if (!allowedCategories.Contains(value))
-                {
-                    throw new ArgumentException($"Invalid category. Allowed categories are: {string.Join(", ", allowedCategories)}");
-                }
+                //if (!allowedCategories.Contains(value))
+                //{
+                //    throw new ArgumentException($"Invalid category. Allowed categories are: {string.Join(", ", allowedCategories)}");
+                //}
                 _category = value;
             }
         }
@@ -76,9 +76,13 @@ namespace Sweet_Shop.Models
             category = category;
         }
 
-        public decimal GetFinalPrice()
+        public float GetFinalPrice()
         {
-            return (decimal)(IsOnSale ? salePrice : price);
+            if (IsOnSale)
+            {
+                return salePrice;
+            }
+            return price;
         }
 
        

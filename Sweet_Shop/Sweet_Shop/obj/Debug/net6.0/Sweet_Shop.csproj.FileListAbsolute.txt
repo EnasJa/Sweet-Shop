@@ -75,3 +75,4 @@ C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop
 C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\obj\Debug\net6.0\Sweet_Shop.pdb
 C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\obj\Debug\net6.0\Sweet_Shop.genruntimeconfig.cache
 C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\obj\Debug\net6.0\ref\Sweet_Shop.dll
+C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\bin\Debug\net6.0\Newtonsoft.Json.dll

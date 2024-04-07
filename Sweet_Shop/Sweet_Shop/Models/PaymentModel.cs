@@ -4,6 +4,8 @@ namespace Sweet_Shop.Models
 {
     public class PaymentModel
     {
+        public Cart Cart { get; set; }
+
         [Required(ErrorMessage = "Card Number is required")]
         [RegularExpression(@"^\d{16}$", ErrorMessage = "Please enter a valid 16-digit card number")]
         public string CardNumber { get; set; }
@@ -25,8 +27,9 @@ namespace Sweet_Shop.Models
             CVC = "";
             CardholderID = "";
         }
-        public PaymentModel(string cardNumber, string expiryDate, string cVC, string cardholderID)
+        public PaymentModel(Cart cart,string cardNumber, string expiryDate, string cVC, string cardholderID)
         {
+            this.Cart = cart;   
             CardNumber = cardNumber;
             ExpiryDate = expiryDate;
             CVC = cVC;
