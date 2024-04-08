@@ -172,15 +172,8 @@ public class CartController : Controller
     [HttpPost]
     public IActionResult PlaceOrder(PaymentModel Payment)
     {
-        bool a = ModelState.IsValid;
-        if (Payment == null) { int h = 0; }
         Payment.Cart = GetCart();
-        Cart cartforOre = Payment.Cart;
-        Ordering(cartforOre);
-
-        // Ensure that the model state is valid
-        //if (ModelState.IsValid)
-        //{
+       
         // Get the cart items
         var cart = GetCart();
         // Server-side validation for expiry date
@@ -189,6 +182,9 @@ public class CartController : Controller
             ModelState.AddModelError(nameof(Payment.ExpiryDate), "Expiry date must be in the future.");
             return View("Checkout", Payment);
         }
+
+        Cart cartforOre = Payment.Cart;
+        Ordering(cartforOre);
         // Check if the cart has any items
         if (cart.CartItems.Any())
         {
@@ -392,111 +388,6 @@ public class CartController : Controller
 
         return RedirectToAction("Index");
     }
-
-
-    //public IActionResult Ordering(Cart cart)
-    //{
-    //    // Iterate through each item in the cart
-    //    foreach (var cartItem in cart.CartItems)
-    //    {
-    //        var productId = cartItem.Product.Id;
-    //        var quantity = cartItem.Quantity;
-    //        var customerId = HttpContext.Session.GetString("CustomerID");
-
-    //        return View(cart);
-    //    }
-    //    return View(cart);  
-    //}
-
-    //public void Ordering(Cart cart)
-    //{
-    //    // Get the customer ID from session
-    //    var customerId = HttpContext.Session.GetString("CustomerID");
-
-    //    // Create a new order
-    //    var order = new Order
-    //    {
-    //        CustomerId = Convert.ToInt32(customerId),
-    //        OrderDate = DateTime.Now // Add order date, if needed
-    //    };
-
-    //    using (var connection = new SqlConnection(connectionString))
-    //    {
-    //        connection.Open();
-
-    //        // Insert the new order into the database
-    //        var insertOrderQuery = "INSERT INTO Orders (CustomerId, OrderDate,ProductId, Quantity) VALUES (@CustomerId, @OrderDate,  @ProductId, @Quantity); SELECT SCOPE_IDENTITY();";
-    //        using (var command = new SqlCommand(insertOrderQuery, connection))
-    //        {   var orderId = Convert.ToInt32(command.ExecuteScalar());
-
-    //            command.Parameters.AddWithValue("@OrdersId", order.OrdersId);
-    //            command.Parameters.AddWithValue("@CustomerId", order.CustomerId);
-    //            command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
-
-
-    //            // Iterate through each item in the cart and add it to the order
-    //            foreach (var cartItem in cart.CartItems)
-    //            {
-    //                //var insertOrderDetailQuery = "INSERT INTO Orders ( ProductId, Quantity) VALUES ( @ProductId, @Quantity);";
-    //                //using (var orderDetailCommand = new SqlCommand(insertOrderDetailQuery, connection))
-    //                //{
-    //                command.Parameters.AddWithValue("@ProductId", cartItem.Product.Id);
-    //                command.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
-
-    //                command.ExecuteNonQuery();
-    //                //}
-    //            }
-    //        }
-    //    }
-
-    //    // Optionally, you can clear the cart after placing the order
-    //    //cart.Clear();
-
-    //    // Redirect to a success page or return a success message
-    //    //return RedirectToAction("OrderConfirmation");
-    //}
-
-
-    //public void Ordering(Cart cart)
-    //{
-    //    // Get the customer ID from session
-    //    var customerId = HttpContext.Session.GetString("CustomerID");
-
-    //    using (var connection = new SqlConnection(connectionString))
-    //    {
-    //        connection.Open();
-
-    //        // Insert the new order into the database
-    //        var insertOrderQuery = "INSERT INTO Orders (OrdersId,CustomerId, OrderDate, ProductId, Quantity) VALUES (@OrdersId,@CustomerId, @OrderDate, @ProductId, @Quantity); SELECT SCOPE_IDENTITY();";
-
-    //        foreach (var cartItem in cart.CartItems)
-    //        {
-    //            using (var command = new SqlCommand(insertOrderQuery, connection))
-    //            {
-    //                command.Parameters.AddWithValue("@CustomerId", customerId);
-    //                command.Parameters.AddWithValue("@OrderDate", DateTime.Now);
-    //                command.Parameters.AddWithValue("@ProductId", cartItem.Product.Id);
-    //                command.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
-
-    //                int OrdersId =8;
-    //                command.Parameters.AddWithValue("@OrdersId", OrdersId);
-
-    //                // Get the newly generated OrderId
-
-    //                // You can use the orderId if needed
-    //                // ...
-    //            }
-    //        }
-    //    }
-
-    //    // Optionally, you can clear the cart after placing the order
-    //    //cart.Clear();
-
-    //    // Redirect to a success page or return a success message
-    //    // return RedirectToAction("OrderConfirmation");
-    //}
-
-
 
 
 
