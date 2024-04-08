@@ -226,6 +226,13 @@ public class CartController : Controller
 
         return RedirectToAction("Index");
     }
+    public IActionResult ProcessPayment()
+    {
+        
+        return View("ProcessPayment");
+    }
+    
+
     [HttpPost]
             public IActionResult PlaceOrder(PaymentModel Payment)
             {
@@ -385,5 +392,37 @@ public class CartController : Controller
             {
                 HttpContext.Session.SetObject("Cart", cart);
             }
-        }
-    
+            public IActionResult UpdateQuantity(int productId, int changeQuantity)
+            {
+                var product = GetProductById(productId);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                var cart = GetCart();
+
+                // Find the cart item corresponding to the product
+                var cartItem = cart.CartItems.FirstOrDefault(item => item.Product.Id == productId);
+                if (cartItem != null)
+                {
+                    // Update the quantity
+                    int newQuantity = cartItem.Quantity + changeQuantity;
+                    if (newQuantity <= 0)
+                    {
+                        // If the new quantity is zero or negative, remove the item from the cart
+                        cart.RemoveFromCart(product);
+                    }
+                    else
+                    {
+                        cartItem.Quantity = newQuantity;
+                    }
+
+                    SaveCart(cart);
+                }
+
+                return RedirectToAction("Index");
+            }
+
+  
+}

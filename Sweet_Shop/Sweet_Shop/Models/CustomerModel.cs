@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Numerics;
+using Sweet_Shop.Models;
+
 
 namespace Sweet_Shop.Models
 {
     public class CustomerModel
     {
+       
 
         [Required(ErrorMessage = "Customer ID is required")]
         [RegularExpression(@"^\d{9}$", ErrorMessage = "Customer ID must contain exactly 9 digits")]

@@ -76,3 +76,4 @@ C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop
 C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\obj\Debug\net6.0\Sweet_Shop.genruntimeconfig.cache
 C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\obj\Debug\net6.0\ref\Sweet_Shop.dll
 C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\enasa\Desktop\שנות לימוד\שנה ג\סמסטר א\מבוא לתקשורת מחשבים\SWEET SHOP\Sweet_Shop\Sweet_Shop\bin\Debug\net6.0\Newtonsoft.Json.dll

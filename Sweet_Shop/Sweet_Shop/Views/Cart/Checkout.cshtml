@@ -13,8 +13,19 @@
         <div class="order-summary">
             <h2>Order Summary</h2>
             <!-- Add more product details as needed -->
-@*             <p>Total Price:@Model.Cart.GetTotalAmount() <span id="total-price"></span></p>
- *@        </div>
+            @{
+                // Calculate total price including delivery
+                float totalAmount = Model.Cart.GetTotalAmount();
+                float deliveryPrice = 20; // Example delivery price, replace with your actual logic to calculate delivery price
+                float totalPriceWithDelivery = totalAmount + deliveryPrice;
+            }
+            <p> Total Price For The Products: @totalAmount </p>
+
+            <p> Delivery Price: @deliveryPrice </p>
+
+            <p>Total Price: @totalPriceWithDelivery <span id="total-price"></span></p>
+            
+         </div>
      
             <label for="cardNumber">Card Number:</label>
             <input type="text" id="cardNumber" name="CardNumber" asp-for="CardNumber">
@@ -39,3 +50,73 @@
 
     <button type="submit">Place Order</button>
 </form>
+<style>
+    body {
+        font-family: Fantasy, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .payment-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #54352b;
+    }
+
+    .order-summary {
+        margin-top: 20px;
+        color: #54352b;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    label {
+        margin-right: 10px;
+        color: #54352b;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #54352b;
+        }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    button[type="submit"] {
+        width: calc(80%);
+        padding: 10px 20px;
+        margin-top: 20px;
+        background-color: #54352b;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #54352b;
+        }
+</style>
