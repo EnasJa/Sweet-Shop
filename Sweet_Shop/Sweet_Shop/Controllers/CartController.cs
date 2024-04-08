@@ -4,6 +4,8 @@ using Sweet_Shop.Extensions;
 using Sweet_Shop.Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
+using System.Numerics;
 using System.Reflection;
 
 public class CartController : Controller
@@ -131,21 +133,53 @@ public class CartController : Controller
     }
     public IActionResult ProcessPayment()
     {
+        string customerId = HttpContext.Session.GetString("CustomerID");
+        string firstName = HttpContext.Session.GetString("FirstName");
+        string lastName = HttpContext.Session.GetString("LastName");
+        string email = HttpContext.Session.GetString("Email");
+        string phone = HttpContext.Session.GetString("Phone");
+        string cAddress = HttpContext.Session.GetString("CAddress");
 
-        return View("ProcessPayment");
+        if (!string.IsNullOrEmpty(customerId) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(email))
+        {
+            // All necessary session values are present
+
+            // Create a CustomerModel object with the retrieved session values
+            var loggedInCustomer = new CustomerModel
+            {
+                CustomerID = customerId,
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Phone = phone,
+                CAddress = cAddress
+            };
+
+            // Pass the CustomerModel object to the view
+            return View(loggedInCustomer);
+        }
+        else
+        {
+            // Handle the case where session values are missing
+            // Here you might want to redirect to a login page or take appropriate action
+            // In this example, we return a view with a null CustomerModel
+            return View((CustomerModel)null);
+        }
+
+        //return View("ProcessPayment");
     }
 
     [HttpPost]
     public IActionResult PlaceOrder(PaymentModel Payment)
     {
         bool a = ModelState.IsValid;
-       if ( Payment == null){ int h = 0; }
-        Payment.Cart= GetCart();
+        if (Payment == null) { int h = 0; }
+        Payment.Cart = GetCart();
         // Ensure that the model state is valid
         //if (ModelState.IsValid)
         //{
-            // Get the cart items
-            var cart = GetCart();
+        // Get the cart items
+        var cart = GetCart();
         // Server-side validation for expiry date
         if (!IsExpiryDateValid(Payment.ExpiryDate))
         {
@@ -154,64 +188,65 @@ public class CartController : Controller
         }
         // Check if the cart has any items
         if (cart.CartItems.Any())
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                connection.Open();
+
+                // Begin a database transaction
+                using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    connection.Open();
-
-                    // Begin a database transaction
-                    using (SqlTransaction transaction = connection.BeginTransaction())
+                    try
                     {
-                        try
+                        // Iterate through each item in the cart
+                        foreach (var cartItem in cart.CartItems)
                         {
-                            // Iterate through each item in the cart
-                            foreach (var cartItem in cart.CartItems)
+                            var productId = cartItem.Product.Id;
+                            var quantity = cartItem.Quantity;
+
+                            // Update the stock of each product in the cart
+                            bool stockUpdated = CartController.SQLUpdateProductStock(productId, -quantity, connection, transaction);
+
+                            // Rollback the transaction if stock update fails
+                            if (!stockUpdated)
                             {
-                                var productId = cartItem.Product.Id;
-                                var quantity = cartItem.Quantity;
-
-                                // Update the stock of each product in the cart
-                                bool stockUpdated = CartController.SQLUpdateProductStock(productId, -quantity, connection, transaction);
-
-                                // Rollback the transaction if stock update fails
-                                if (!stockUpdated)
-                                {
-                                    transaction.Rollback();
-                                    // Optionally, you can display an error message or handle the failure
-                                    return RedirectToAction("OrderFailed");
-                                }
+                                transaction.Rollback();
+                                // Optionally, you can display an error message or handle the failure
+                                return RedirectToAction("OrderFailed");
                             }
-
-                            // If all stock updates were successful, process the order
-                            // You can save the order details to a database here
-
-                            // Clear the cart after successful order placement
-                            SaveCart(cart);
-
-                            // Commit the transaction
-                            transaction.Commit();
-
-                            // Optionally, you can display a success message or redirect to a confirmation page
-                            return RedirectToAction("OrderConfirmation");
                         }
-                        catch (Exception ex)
-                        {
-                            // Handle any exceptions here (e.g., log the error)
-                            Console.WriteLine(ex.Message);
-                            // Rollback the transaction if an exception occurs
-                            transaction.Rollback();
-                            // Optionally, you can display an error message or redirect to a failure page
-                            return RedirectToAction("OrderFailed");
-                        }
+
+                        // If all stock updates were successful, process the order
+                        // You can save the order details to a database here
+
+                        // Clear the cart after successful order placement
+                        ClearCart(cart);
+                        SaveCart(cart);
+
+                        // Commit the transaction
+                        transaction.Commit();
+
+                        // Optionally, you can display a success message or redirect to a confirmation page
+                        return RedirectToAction("OrderConfirmation");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle any exceptions here (e.g., log the error)
+                        Console.WriteLine(ex.Message);
+                        // Rollback the transaction if an exception occurs
+                        transaction.Rollback();
+                        // Optionally, you can display an error message or redirect to a failure page
+                        return RedirectToAction("OrderFailed");
                     }
                 }
             }
-            else
-            {
-                // Handle case where cart is empty
-                // Optionally, you can display a message or redirect to a page
-                return RedirectToAction("EmptyCart");
-            }
+        }
+        else
+        {
+            // Handle case where cart is empty
+            // Optionally, you can display a message or redirect to a page
+            return RedirectToAction("EmptyCart");
+        }
         //}
 
         // If the model state is not valid, return the checkout view with validation errors
@@ -320,6 +355,7 @@ public class CartController : Controller
     {
         HttpContext.Session.SetObject("Cart", cart);
     }
+    private void ClearCart(Cart cart) { cart.ClearCart(); }
     public IActionResult UpdateQuantity(int productId, int changeQuantity)
     {
         var product = GetProductById(productId);

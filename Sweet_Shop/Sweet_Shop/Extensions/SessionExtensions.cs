@@ -14,5 +14,10 @@ namespace Sweet_Shop.Extensions
             var value = session.GetString(key);
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
+
+        public static bool IsCustomerIdExistsInSession(this ISession session)
+        {
+            return session.GetString("CustomerID") != null;
+        }
     }
 }

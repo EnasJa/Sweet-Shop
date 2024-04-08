@@ -24,7 +24,12 @@ namespace Sweet_Shop.Controllers
         [Route("")]
         public IActionResult MainPage()
         {
-            return View("MainPage");
+            HttpContext context = HttpContext;
+
+            // Pass the HttpContext to the view
+            ViewData["HttpContext"] = context;
+
+            return View();
         }
 
         public IActionResult LogInForCustomer()
@@ -65,8 +70,18 @@ namespace Sweet_Shop.Controllers
 
                     // Store authenticated customer ID and email in session
                     HttpContext.Session.SetString("CustomerID", reader["CustomerID"].ToString());
-                    HttpContext.Session.SetString("CustomerEmail", reader["Email"].ToString());
+                    HttpContext.Session.SetString("FirstName", reader["FirstName"].ToString());
+                    HttpContext.Session.SetString("LastName", reader["LastName"].ToString());
+                    HttpContext.Session.SetString("Email", reader["Email"].ToString());
+                    //HttpContext.Session.SetString("Phone", reader["Phone"].ToString());
+                    //HttpContext.Session.SetString("Phone", loggedInCustomer.Phone.ToString("D10"));
 
+                    HttpContext.Session.SetString("CAddress", reader["CAddress"].ToString());
+
+                    // Format phone number with leading zeros and store in session
+                    string phone = reader["Phone"].ToString();
+                    string formattedPhone = phone.PadLeft(10, '0'); // Assuming phone number is 10 digits
+                    HttpContext.Session.SetString("Phone", formattedPhone);
                     return RedirectToAction("MainPage");
                 }
                 else

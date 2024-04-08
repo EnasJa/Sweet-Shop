@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Sweet_Shop.Extensions
+
+@{
+    var context = (HttpContext)ViewData["HttpContext"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,13 +38,41 @@
 						</a>
                         </li>
                         <li class="nav-link text-dark"><span id="cart-item-count"></span></li>
-                    <li class="nav-item">
+
+                        @if(context!=null){
+                            @if (!context.Session.IsCustomerIdExistsInSession())
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="LogInForCustomer">sign in/sign up</a>
+                                </li>
+                            }
+                        }
+                        else{
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="LogInForCustomer">sign in/sign up</a>
+                            </li>
+                        }
+
+                   @*  <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="LogInForCustomer">sign in/sign up</a>
-                    </li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="administratorLogin">sign in for Admin</a>
-						</li>
-                </ul>
+                    </li> *@
+                    
+                        @if (context != null)
+                        {
+                            @if (!context.Session.IsCustomerIdExistsInSession())
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="administratorLogin">sign in for Admin</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="administratorLogin">sign in for Admin</a>
+                            </li>
+                        }
+                    </ul>
                     
             </div>
         </div>

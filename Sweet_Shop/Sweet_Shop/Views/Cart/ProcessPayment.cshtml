@@ -1,15 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model CustomerModel 
-
-
+﻿@model CustomerModel 
 
 <h2>Apply to Complete Payment</h2>
 
+<form asp-controller="Cart" asp-action="Checkout" method="post">
+    <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="FirstName" required pattern="^[A-Z][a-zA-Z]*$"@if (Model != null) { <text>value="@Model.FirstName"</text> } />
+        <div class="text-danger">
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+    </div>
+    <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="LastName" required pattern="^[A-Z][a-zA-Z]*$" @if (Model != null) {<text>value = "@Model.LastName"</text> }/>
+        <div class="text-danger">
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+    </div>
+    <div>
+        <label for="districts">Districts:</label>
+        <input type="text" id="districts" name="Districts"@*  required value="@Model.Districts *@" />
+    </div>
+    <div>
+        <label for="city">City/Village:</label>
+        <input type="text" id="city" name="City" @* required value="@Model.City *@" />
+    </div>
+   
+    <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="PhoneNumber" required pattern="^\d{10}$" @if (Model != null)
+        {
+            <text>value=@Model.Phone</text>
+        } />
+        <div class="text-danger">
+            @Html.ValidationMessageFor(model => model.Phone)
+        </div>
+    </div>
 
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="Email" @if (Model != null) { <text>value = "@Model.Email"</text>} />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <div class="text-danger">
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+    <button type="submit">Checkout</button>
+</form>
+
+
+
+@* 
 <form asp-controller="Cart" asp-action="Checkout" method="post">
     <div>
         <label for="firstName">First Name:</label>
@@ -49,7 +92,7 @@
 </div>
 
     <button type="submit">Checkout</button>
-</form>
+</form> *@
 <style>
     body {
         font-family: Fantasy, sans-serif;
