@@ -175,6 +175,9 @@ public class CartController : Controller
         bool a = ModelState.IsValid;
         if (Payment == null) { int h = 0; }
         Payment.Cart = GetCart();
+        Cart cartforOre = Payment.Cart;
+        Ordering(cartforOre);
+
         // Ensure that the model state is valid
         //if (ModelState.IsValid)
         //{
@@ -220,6 +223,8 @@ public class CartController : Controller
                         // You can save the order details to a database here
 
                         // Clear the cart after successful order placement
+
+
                         ClearCart(cart);
                         SaveCart(cart);
 
@@ -388,5 +393,152 @@ public class CartController : Controller
         return RedirectToAction("Index");
     }
 
+
+    //public IActionResult Ordering(Cart cart)
+    //{
+    //    // Iterate through each item in the cart
+    //    foreach (var cartItem in cart.CartItems)
+    //    {
+    //        var productId = cartItem.Product.Id;
+    //        var quantity = cartItem.Quantity;
+    //        var customerId = HttpContext.Session.GetString("CustomerID");
+
+    //        return View(cart);
+    //    }
+    //    return View(cart);  
+    //}
+
+    //public void Ordering(Cart cart)
+    //{
+    //    // Get the customer ID from session
+    //    var customerId = HttpContext.Session.GetString("CustomerID");
+
+    //    // Create a new order
+    //    var order = new Order
+    //    {
+    //        CustomerId = Convert.ToInt32(customerId),
+    //        OrderDate = DateTime.Now // Add order date, if needed
+    //    };
+
+    //    using (var connection = new SqlConnection(connectionString))
+    //    {
+    //        connection.Open();
+
+    //        // Insert the new order into the database
+    //        var insertOrderQuery = "INSERT INTO Orders (CustomerId, OrderDate,ProductId, Quantity) VALUES (@CustomerId, @OrderDate,  @ProductId, @Quantity); SELECT SCOPE_IDENTITY();";
+    //        using (var command = new SqlCommand(insertOrderQuery, connection))
+    //        {   var orderId = Convert.ToInt32(command.ExecuteScalar());
+
+    //            command.Parameters.AddWithValue("@OrdersId", order.OrdersId);
+    //            command.Parameters.AddWithValue("@CustomerId", order.CustomerId);
+    //            command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+
+
+    //            // Iterate through each item in the cart and add it to the order
+    //            foreach (var cartItem in cart.CartItems)
+    //            {
+    //                //var insertOrderDetailQuery = "INSERT INTO Orders ( ProductId, Quantity) VALUES ( @ProductId, @Quantity);";
+    //                //using (var orderDetailCommand = new SqlCommand(insertOrderDetailQuery, connection))
+    //                //{
+    //                command.Parameters.AddWithValue("@ProductId", cartItem.Product.Id);
+    //                command.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
+
+    //                command.ExecuteNonQuery();
+    //                //}
+    //            }
+    //        }
+    //    }
+
+    //    // Optionally, you can clear the cart after placing the order
+    //    //cart.Clear();
+
+    //    // Redirect to a success page or return a success message
+    //    //return RedirectToAction("OrderConfirmation");
+    //}
+
+
+    //public void Ordering(Cart cart)
+    //{
+    //    // Get the customer ID from session
+    //    var customerId = HttpContext.Session.GetString("CustomerID");
+
+    //    using (var connection = new SqlConnection(connectionString))
+    //    {
+    //        connection.Open();
+
+    //        // Insert the new order into the database
+    //        var insertOrderQuery = "INSERT INTO Orders (OrdersId,CustomerId, OrderDate, ProductId, Quantity) VALUES (@OrdersId,@CustomerId, @OrderDate, @ProductId, @Quantity); SELECT SCOPE_IDENTITY();";
+
+    //        foreach (var cartItem in cart.CartItems)
+    //        {
+    //            using (var command = new SqlCommand(insertOrderQuery, connection))
+    //            {
+    //                command.Parameters.AddWithValue("@CustomerId", customerId);
+    //                command.Parameters.AddWithValue("@OrderDate", DateTime.Now);
+    //                command.Parameters.AddWithValue("@ProductId", cartItem.Product.Id);
+    //                command.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
+
+    //                int OrdersId =8;
+    //                command.Parameters.AddWithValue("@OrdersId", OrdersId);
+
+    //                // Get the newly generated OrderId
+
+    //                // You can use the orderId if needed
+    //                // ...
+    //            }
+    //        }
+    //    }
+
+    //    // Optionally, you can clear the cart after placing the order
+    //    //cart.Clear();
+
+    //    // Redirect to a success page or return a success message
+    //    // return RedirectToAction("OrderConfirmation");
+    //}
+
+
+
+
+
+    public void Ordering(Cart cart)
+    {
+        // Get the customer ID from session
+        var customerId = HttpContext.Session.GetString("CustomerID");
+
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            // Get the last OrderId from the database
+            var getLastOrderIdQuery = "SELECT ISNULL(MAX(OrdersId), 0) FROM Orders;";
+            using (var command = new SqlCommand(getLastOrderIdQuery, connection))
+            {
+                int lastOrderId = Convert.ToInt32(command.ExecuteScalar());
+                lastOrderId++;
+
+                // Insert the new order into the database
+                var insertOrderQuery = "INSERT INTO Orders (OrdersId, CustomerId, OrderDate, ProductId, Quantity) VALUES (@OrdersId, @CustomerId, @OrderDate, @ProductId, @Quantity);";
+
+                foreach (var cartItem in cart.CartItems)
+                {
+                    using (var orderCommand = new SqlCommand(insertOrderQuery, connection))
+                    {
+                        orderCommand.Parameters.AddWithValue("@OrdersId", lastOrderId);
+                        orderCommand.Parameters.AddWithValue("@CustomerId", customerId);
+                        orderCommand.Parameters.AddWithValue("@OrderDate", DateTime.Now);
+                        orderCommand.Parameters.AddWithValue("@ProductId", cartItem.Product.Id);
+                        orderCommand.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
+                        orderCommand.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        // Optionally, you can clear the cart after placing the order
+        //cart.Clear();
+
+        // Redirect to a success page or return a success message
+        // return RedirectToAction("OrderConfirmation");
+    }
 
 }
