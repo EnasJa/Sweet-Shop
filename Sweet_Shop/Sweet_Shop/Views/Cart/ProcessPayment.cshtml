@@ -1,31 +1,38 @@
-﻿@model CustomerModel 
+﻿@model CustomerModel
 
 <h2>Apply to Complete Payment</h2>
 
 <form asp-controller="Cart" asp-action="Checkout" method="post">
     <div>
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="FirstName" required pattern="^[A-Z][a-zA-Z]*$"@if (Model != null) { <text>value="@Model.FirstName"</text> } />
+        <input type="text" id="firstName" name="FirstName" required pattern="^[A-Z][a-zA-Z]*$" @if (Model != null)
+        {
+            <text>value="@Model.FirstName"</text>
+        } />
         <div class="text-danger">
             @Html.ValidationMessageFor(model => model.FirstName)
         </div>
     </div>
     <div>
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="LastName" required pattern="^[A-Z][a-zA-Z]*$" @if (Model != null) {<text>value = "@Model.LastName"</text> }/>
+        <input type="text" id="lastName" name="LastName" required pattern="^[A-Z][a-zA-Z]*$" @if (Model != null)
+        {
+            <text>value = "@Model.LastName"</text>
+        }/>
         <div class="text-danger">
             @Html.ValidationMessageFor(model => model.LastName)
         </div>
     </div>
     <div>
         <label for="districts">Districts:</label>
-        <input type="text" id="districts" name="Districts"@*  required value="@Model.Districts *@" />
+        <input type="text" id="districts" name="Districts" required pattern="^(Central|North|South)$" title="Please enter Central, North, or South">
     </div>
+
     <div>
         <label for="city">City/Village:</label>
-        <input type="text" id="city" name="City" @* required value="@Model.City *@" />
+        <input type="text" id="city" name="City"  required  />
     </div>
-   
+
     <div>
         <label for="phoneNumber">Phone Number:</label>
         <input type="tel" id="phoneNumber" name="PhoneNumber" required pattern="^\d{10}$" @if (Model != null)
@@ -40,7 +47,10 @@
 
     <div>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="Email" @if (Model != null) { <text>value = "@Model.Email"</text>} />
+        <input type="email" id="email" name="Email" @if (Model != null)
+        {
+            <text>value = "@Model.Email"</text>
+        } />
         <span asp-validation-for="Email" class="text-danger"></span>
 
         <div class="text-danger">
@@ -52,7 +62,7 @@
 
 
 
-@* 
+@*
 <form asp-controller="Cart" asp-action="Checkout" method="post">
     <div>
         <label for="firstName">First Name:</label>

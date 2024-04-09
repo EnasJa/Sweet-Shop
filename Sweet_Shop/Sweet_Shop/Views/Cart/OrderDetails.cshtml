@@ -1,5 +1,10 @@
 ﻿@model List<(Order order, Product product)>
 
+@{
+    // Calculate total price
+    float totalPrice = Model.Sum(item => item.product.price * item.order.Quantity);
+    float TotalAmount = totalPrice + 20;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,6 +125,9 @@
                        
                     </li>
                 }
+                <p>Price: @totalPrice</p>
+                <p>shipping: 20</p>
+                <p>Total Amount : @TotalAmount</p>
             </ul>
         }
         

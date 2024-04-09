@@ -210,7 +210,6 @@ public class CartController : Controller
         }
 
         Cart cartforOre = Payment.Cart;
-        Ordering(cartforOre);
         // Check if the cart has any items
         if (cart.CartItems.Any())
         {
@@ -247,8 +246,10 @@ public class CartController : Controller
                         // Clear the cart after successful order placement
 
 
-                        ClearCart(cart);
-                        SaveCart(cart);
+                        if (HttpContext.Session.GetString("CustomerID") != null)
+                        {
+                            Ordering(cartforOre);
+                        }
 
                         // Commit the transaction
                         transaction.Commit();
