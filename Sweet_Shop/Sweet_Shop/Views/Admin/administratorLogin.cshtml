@@ -11,6 +11,13 @@
     <div class="container">
         <form action="AdministratorLogin" method="post">
             <h2>Login</h2>
+            <!-- Display validation errors if any -->
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" role="alert">
+                    Invalid Admin ID or Password
+                </div>
+            }
             <div class="input-group">
                 <label for="CustomerID">Admin ID</label>
                 <input type="text" id="CustomerID" name="AdminID" required>
@@ -21,7 +28,7 @@
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
-
+        
       
 
     </div>

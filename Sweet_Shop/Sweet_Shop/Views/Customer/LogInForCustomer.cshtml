@@ -11,6 +11,13 @@
     <div class="container">
         <form action="checkLogInForCustomer" method="post">
             <h2>Login</h2>
+            <!-- Display validation errors if any -->
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" role="alert">
+                    Invalid ID or Password
+                </div>
+            }
             <div class="input-group">
                 <label for="CustomerID">Customer ID</label>
                 <input type="text" id="CustomerID" name="CustomerID" required>
@@ -21,7 +28,8 @@
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
-    
+        
+
         <p style="text-align: center;">Don't have an account? <a class="create-account-link" asp-controller="Customer" asp-action="CustomerRegistration">Create one</a></p>
 
     </div>
