@@ -230,7 +230,7 @@ namespace Project.Controllers
             }
         }
 
-        public IActionResult ViewProducts(string sortOrder, string category, string IsOnSale)
+        public IActionResult ViewProducts(string sortOrder, string category, string IsOnSale, string searchString, string priceRange)
         {
             List<Product> products = new List<Product>();
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -238,22 +238,62 @@ namespace Project.Controllers
                 string query = "SELECT Id, Name, price, stock, salePrice, imageUrl, category, IsOnSale FROM Products";
 
                 // Build the WHERE clause
-                string whereClause = string.Empty;
+                string whereClause = " WHERE 1=1"; // Default condition to avoid syntax error
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                // Apply category filter if specified
                 if (!string.IsNullOrEmpty(category))
                 {
-                    whereClause = " WHERE category = @Category";
+                    whereClause += " AND category = @Category";
+                    parameters.Add(new SqlParameter("@Category", category));
                 }
 
                 // Apply IsOnSale filter if specified
                 if (!string.IsNullOrEmpty(IsOnSale))
                 {
-                    if (string.IsNullOrEmpty(whereClause))
+                    whereClause += " AND IsOnSale = @IsOnSale";
+                    parameters.Add(new SqlParameter("@IsOnSale", IsOnSale));
+                }
+
+                // Apply search filter if specified
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    whereClause += " AND Name LIKE @SearchString";
+                    parameters.Add(new SqlParameter("@SearchString", "%" + searchString + "%"));
+                }
+
+                // Apply price range filter if specified
+                if (!string.IsNullOrEmpty(priceRange))
+                {
+                    switch (priceRange)
                     {
-                        whereClause = " WHERE IsOnSale = @IsOnSale";
-                    }
-                    else
-                    {
-                        whereClause += " AND IsOnSale = @IsOnSale";
+                        case "1-20":
+                            if (IsOnSale == "0")
+                                whereClause += " AND price BETWEEN 1 AND 20";
+                            else
+                                whereClause += " AND saleprice BETWEEN 1 AND 20";
+                            break;
+                        case "21-40":
+                            if (IsOnSale == "0")
+                                whereClause += " AND price BETWEEN 21 AND 40";
+                            else
+                                whereClause += " AND saleprice BETWEEN 21 AND 40";
+                            break;
+                        case "41-60":
+                            if (IsOnSale == "0")
+                                whereClause += " AND price BETWEEN 41 AND 60";
+                            else
+                                whereClause += " AND saleprice BETWEEN 41 AND 60";
+                            break;
+                        case "61-80":
+                            if (IsOnSale == "0")
+                                whereClause += " AND price BETWEEN 61 AND 80";
+                            else
+                                whereClause += " AND saleprice BETWEEN 61 AND 80";
+
+                            break;
+                        default:
+                            break;
                     }
                 }
 
@@ -280,19 +320,7 @@ namespace Project.Controllers
                 query += whereClause + orderByClause;
 
                 SqlCommand command = new SqlCommand(query, connection);
-
-                // Add parameters for category and IsOnSale if specified
-                if (!string.IsNullOrEmpty(category))
-                {
-                    command.Parameters.AddWithValue("@Category", category);
-                }
-
-                if (!string.IsNullOrEmpty(IsOnSale))
-                {
-                    // Assuming IsOnSale is boolean in the database, convert IsOnSale string to boolean
-                    bool isOnSaleValue = IsOnSale.Equals("true", StringComparison.OrdinalIgnoreCase);
-                    command.Parameters.AddWithValue("@IsOnSale", isOnSaleValue);
-                }
+                command.Parameters.AddRange(parameters.ToArray());
 
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -315,11 +343,10 @@ namespace Project.Controllers
                 }
 
                 reader.Close();
-                connection.Close();
             }
+
             return View(products);
         }
-
 
         public IActionResult manageProducts(string sortOrder, string category, string IsOnSale)
         {
