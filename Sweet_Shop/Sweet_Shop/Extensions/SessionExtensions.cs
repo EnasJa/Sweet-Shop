@@ -19,5 +19,9 @@ namespace Sweet_Shop.Extensions
         {
             return session.GetString("CustomerID") != null;
         }
+        public static bool IsAdminIdExistsInSession(this ISession session)
+        {
+            return session.GetString("AdminID") != null;
+        }
     }
 }

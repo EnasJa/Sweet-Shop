@@ -37,7 +37,17 @@ public class CartController : Controller
         cart.AddToCart(product);
         SaveCart(cart);
 
-        return RedirectToAction("ViewProducts","Products" );
+        // Get the URL of the previous page
+        string returnUrl = Request.Headers["Referer"].ToString();
+
+        // If the previous page URL is empty or null, redirect to the default action
+        if (string.IsNullOrEmpty(returnUrl))
+        {
+            return RedirectToAction("Index");
+        }
+
+        // Redirect the user back to the previous page
+        return Redirect(returnUrl);
     }
 
     public IActionResult RemoveFromCart(int productId)
