@@ -49,6 +49,22 @@ public class CartController : Controller
         // Redirect the user back to the previous page
         return Redirect(returnUrl);
     }
+    public IActionResult buyNow(int productId)
+    {
+        var product = GetProductById(productId);
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        var cart = GetCart();
+        cart.AddToCart(product);
+        SaveCart(cart);
+
+     
+        // Redirect the user back to the previous page
+        return Redirect("Index");
+    }
 
     public IActionResult RemoveFromCart(int productId)
     {

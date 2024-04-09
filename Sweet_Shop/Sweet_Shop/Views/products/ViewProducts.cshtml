@@ -329,6 +329,8 @@
                             }else{
                                 <a class="btn btn-primary">empty stock</a>
                             }
+                            <a asp-controller="Cart" asp-action="buyNow" asp-route-productId="@product.Id" class="btn btn-primary">buy Now</a>
+
                             <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="btn btn-primary">Details</a>
                             @* <a href="@Url.Action("UpdateProduct", "Products", new { id = product.Id })" class="btn btn-warning">Edit</a> *@
                         </div>

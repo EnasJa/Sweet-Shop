@@ -124,7 +124,7 @@
 
 
 
-
+@* 
 
 
  <!DOCTYPE html>
@@ -240,39 +240,193 @@
                                 <label for="quantity" class="form-label">Quantity:</label>
                                 <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control">
                             </div>
-                            <a href="#" class="btn btn-success add-to-cart"
-                               data-product-id="@Model.Id"
-                               data-product-name="@Model.Name"
-                               data-product-price="@Model.price"
-                               data-product-image="@Model.imageUrl">Add to Cart</a>
-                            <button class="btn btn-success">Buy Now</button>
+                            @if (Model.stock > 0)
+                            {
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id" class="btn btn-primary">Add to Cart</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary">empty stock</a>
+                            }
+                            <a asp-controller="Cart" asp-action="buyNow" asp-route-productId="@Model.Id" class="btn btn-primary">buy Now</a>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(".add-to-cart").click(function () {
-                var productId = $(this).data("product-id");
-                var productName = $(this).data("product-name");
-                var productPrice = $(this).data("product-price");
-                var productImageUrl = $(this).data("product-image");
+</body>
+</html> *@
 
-                var product = {
-                    id: productId,
-                    name: productName,
-                    price: productPrice,
-                    imageUrl: productImageUrl
-                };
 
-                var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-                cartItems.push(product);
-                localStorage.setItem("cartItems", JSON.stringify(cartItems));
-            });
-        });
-    </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Fantasy, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .shopping-cart-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #54352b;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            li:last-child {
+                border-bottom: none;
+            }
+
+        h3 {
+            margin: 0;
+            color: #54352b;
+        }
+
+        p {
+            margin: 0;
+            color: #54352b;
+        }
+
+        .price {
+            margin-right: 10px; /* Adjust the margin between the price and the remove button */
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #54352b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            button:hover {
+                background-color: #321f18;
+            }
+
+        a {
+            color: #54352b;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        .empty-cart {
+            text-align: center;
+            color: #54352b;
+        }
+
+        .w3-btn {
+            margin-bottom: 10px;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container shopping-cart-container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="product-details">
+                        <div class="product-image">
+                            <img src="@Model.imageUrl" alt="@Model.Name" width="270" height="270">
+                        </div>
+                        <div class="product-info">
+                            <div class="card-body">
+                                <h5 class="card-title">@Model.Name</h5>
+                                <p class="card-text">Category: @Model.category</p>
+                                <p class="card-text">
+                                    @if (Model.IsOnSale)
+                                    {
+                                        <span class="sale-price">Sale: $@Model.salePrice</span>
+                                        <span class="original-price">$<del>@Model.price</del></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="regular-price">$@Model.price</span>
+                                    }
+                                </p>
+                                <p class="card-text">Stock: @Model.stock</p>
+
+
+                                <div class="btn-group">
+                                    <div class="quantity-selector">
+                                        <label for="quantity" class="form-label">Quantity:</label>
+                                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control">
+                                   
+
+
+                                    @if (Model.stock > 0)
+                                    {
+                                        <button class="w3-btn w3-white w3-border w3-border-#524347 w3-round-large"><a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id" >Add to Cart</a></button>
+
+                                        
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-primary" disabled>Out of Stock</button>
+                                    }
+                                    <button class="w3-btn w3-white w3-border w3-border-#524347 w3-round-large"><a asp-controller="Cart" asp-action="buyNow" asp-route-productId="@Model.Id">Buy Now</a></button>
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
