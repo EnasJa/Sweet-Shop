@@ -431,5 +431,54 @@ public class CartController : Controller
         // Redirect to a success page or return a success message
         // return RedirectToAction("OrderConfirmation");
     }
+    ////////////////////////order history display in the custtomer profile /////////////////////////////////////
+    public List<Order> GetOrdersForCustomer(int customerId)
+    {
+        List<Order> orders = new List<Order>();
+
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            // Query to retrieve orders for the specified customer ID
+            var query = "SELECT OrdersId, CustomerId, ProductId, Quantity, OrderDate FROM Orders WHERE CustomerId = @CustomerId;";
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Order order = new Order
+                        {
+                            OrdersId = reader.GetInt32(0),
+                            CustomerId = reader.GetInt32(1),
+                            productId = reader.GetInt32(2),
+                            Quantity = reader.GetInt32(3),
+                            OrderDate = reader.GetDateTime(4)
+                        };
+
+                        orders.Add(order);
+                    }
+                }
+            }
+        }
+
+        return orders;
+    }
+    public IActionResult Profile()
+    {
+        var customerId = HttpContext.Session.GetString("CustomerID");
+        var orders = GetOrdersForCustomer(int.Parse(customerId));
+        return View("CustomerProfile", orders);
+    }
+    //public IActionResult CustomerProfile()
+    //{
+        
+    //    return View("CustomerProfile");
+    //}
 
 }
+

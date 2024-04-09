@@ -31,7 +31,10 @@ namespace Sweet_Shop.Controllers
 
             return View();
         }
-
+        //public IActionResult Profile()
+        //{
+        //    return View("CustomerProfile");
+        //}
         public IActionResult LogInForCustomer()
         {
             return View("LogInForCustomer", new CustomerModel());

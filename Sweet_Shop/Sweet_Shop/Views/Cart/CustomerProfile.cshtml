@@ -1,0 +1,58 @@
+﻿model List<Order>
+
+<h1>Customer Profile</h1>
+
+<h2>Order History</h2>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Order Date</th>
+        </tr>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrdersId</td>
+                <td>@order.productId</td>
+                <td>@order.Quantity</td>
+                <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No orders found for this customer.</p>
+}
+
+@*@model List<Order>
+
+<h1>Customer Profile</h1>
+
+<h2>Order History</h2>
+
+@if (Model != null && Model.Count() > 0)
+{
+    @foreach (var order in Model)
+    {
+        <h3>Order ID: @order.OrdersId</h3>
+        @foreach (var order in order.OrdersId)
+        {
+            <tr>
+                <td>@order.OrdersId</td>
+                <td>@order.productId</td>
+                <td>@order.Quantity</td>
+                <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+        
+    }
+}
+else
+{
+    <p>No orders found for this customer.</p>
+}*@
