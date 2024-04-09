@@ -173,7 +173,7 @@ public class CartController : Controller
     public IActionResult PlaceOrder(PaymentModel Payment)
     {
         Payment.Cart = GetCart();
-       
+
         // Get the cart items
         var cart = GetCart();
         // Server-side validation for expiry date
@@ -431,6 +431,8 @@ public class CartController : Controller
         // Redirect to a success page or return a success message
         // return RedirectToAction("OrderConfirmation");
     }
+
+
     ////////////////////////order history display in the custtomer profile /////////////////////////////////////
     public List<Order> GetOrdersForCustomer(int customerId)
     {
@@ -472,13 +474,116 @@ public class CartController : Controller
     {
         var customerId = HttpContext.Session.GetString("CustomerID");
         var orders = GetOrdersForCustomer(int.Parse(customerId));
-        return View("CustomerProfile", orders);
+        // קבלת רשימת OrdersId בלי חזרות מהרשימה ordersList
+        List<int> uniqueOrdersIds = orders.Select(order => order.OrdersId).Distinct().ToList();
+
+        return View("CustomerProfile", uniqueOrdersIds);
+        //return View("CustomerProfile", orders);
     }
     //public IActionResult CustomerProfile()
     //{
-        
+
     //    return View("CustomerProfile");
     //}
+
+    //public IActionResult OrderDetails(int id)
+    //{
+
+    //    var orders = GetOrdersByOrderId(id);
+    //    return View("OrderDetails", orders);
+    //}
+    public List<Order> GetOrdersByOrderId(int orderId)
+    {
+        List<Order> orders = new List<Order>();
+
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            // Query to retrieve orders for the specified order ID
+            var query = "SELECT OrdersId, CustomerId, ProductId, Quantity, OrderDate FROM Orders WHERE OrdersId = @OrdersId;";
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@OrdersId", orderId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Order order = new Order
+                        {
+                            OrdersId = reader.GetInt32(0),
+                            CustomerId = reader.GetInt32(1),
+                            productId = reader.GetInt32(2),
+                            Quantity = reader.GetInt32(3),
+                            OrderDate = reader.GetDateTime(4)
+                        };
+
+                        orders.Add(order);
+                    }
+                }
+            }
+        }
+
+        return orders;
+    }
+
+
+    public List<(Order order, Product product)> GetOrderDetailsByOrderId(int orderId)
+    {
+        List<(Order order, Product product)> orderDetails = new List<(Order order, Product product)>();
+
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            // Query to retrieve order details along with product details for the specified order ID
+            var query = @"SELECT o.OrdersId, o.CustomerId, o.ProductId, o.Quantity, o.OrderDate,
+                             p.Id, p.Name, p.Price,p.ImageUrl
+                      FROM Orders o
+                      INNER JOIN Products p ON o.ProductId = p.Id
+                      WHERE o.OrdersId = @OrdersId;";
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@OrdersId", orderId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Order order = new Order
+                        {
+                            OrdersId = reader.GetInt32(0),
+                            CustomerId = reader.GetInt32(1),
+                            productId = reader.GetInt32(2),
+                            Quantity = reader.GetInt32(3),
+                            OrderDate = reader.GetDateTime(4)
+                        };
+
+                        Product product = new Product
+                        {
+                            Id = reader.GetInt32(5),
+                            Name = reader.GetString(6),
+                            price = Convert.ToSingle(reader["price"]),
+                            imageUrl = reader["imageUrl"].ToString(),
+
+                        };
+
+                        orderDetails.Add((order, product));
+                    }
+                }
+            }
+        }
+
+        return orderDetails;
+    }
+    public IActionResult OrderDetails(int id)
+    {
+        var orderDetails = GetOrderDetailsByOrderId(id);
+        return View("OrderDetails", orderDetails);
+    }
 
 }
 

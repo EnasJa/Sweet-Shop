@@ -9,117 +9,123 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Sweet_Shop
 build_property.RootNamespace = Sweet_Shop
-build_property.ProjectDir = C:\Users\enasa\Desktop\שנות לימוד\שנה ג\סמסטר א\מבוא לתקשורת מחשבים\SWEET SHOP\Sweet_Shop\Sweet_Shop\
+build_property.ProjectDir = C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\enasa\Desktop\שנות לימוד\שנה ג\סמסטר א\מבוא לתקשורת מחשבים\SWEET SHOP\Sweet_Shop\Sweet_Shop
+build_property.MSBuildProjectDirectory = C:\Users\אדם אלנבארי\Documents\GitHub\Sweet-Shop\Sweet_Shop\Sweet_Shop
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Admin/AdminDashboard.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Admin/AdminDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5EYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Admin/administratorLogin.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Admin/administratorLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cYWRtaW5pc3RyYXRvckxvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Cart/Checkout.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Cart/Checkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxDaGVja291dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Cart/CustomerProfile.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Cart/CustomerProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxDdXN0b21lclByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Cart/Index.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Cart/OrderConfirmation.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Cart/OrderConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxPcmRlckNvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Cart/ProcessPayment.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Cart/OrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxPcmRlckRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Cart/ProcessPayment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxQcm9jZXNzUGF5bWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Customer/CustomerRegistration.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Customer/CustomerRegistration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ3VzdG9tZXJSZWdpc3RyYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Customer/LogInForCustomer.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Customer/LogInForCustomer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcTG9nSW5Gb3JDdXN0b21lci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Customer/MainPage.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Customer/MainPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcTWFpblBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Home/Index.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Home/Privacy.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Payment/PaymentPage.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Payment/PaymentPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxQYXltZW50UGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/addProduct.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/addProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcYWRkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/Delete.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/Details.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/Edit.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/manageProducts.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/manageProducts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcbWFuYWdlUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/UpdateProduct.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/UpdateProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcVXBkYXRlUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/ViewProducts.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/ViewProducts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcVmlld1Byb2R1Y3RzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/products/ViewProductsbycategory.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/products/ViewProductsbycategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcVmlld1Byb2R1Y3RzYnljYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Shared/Error.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/ShoppingCart/CartPage.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/ShoppingCart/CartPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcHBpbmdDYXJ0XENhcnRQYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/_ViewImports.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/_ViewStart.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/enasa/Desktop/שנות לימוד/שנה ג/סמסטר א/מבוא לתקשורת מחשבים/SWEET SHOP/Sweet_Shop/Sweet_Shop/Views/Shared/_Layout.cshtml]
+[C:/Users/אדם אלנבארי/Documents/GitHub/Sweet-Shop/Sweet_Shop/Sweet_Shop/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-jq6p7tbdxe
