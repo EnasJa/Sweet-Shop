@@ -25,9 +25,10 @@ namespace Sweet_Shop.Controllers
         public IActionResult MainPage()
         {
             HttpContext context = HttpContext;
+            var Name = HttpContext.Session.GetString("FirstName");
 
             // Pass the HttpContext to the view
-            ViewData["HttpContext"] = context;
+            ViewData["FirstName"] = Name;
 
             return View();
         }

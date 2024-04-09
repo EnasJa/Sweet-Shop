@@ -1,7 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@model string
+
+@{
+    // Retrieve the customer ID from ViewData
+    var FirstName = ViewData["FirstName"] as string;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    
+   
+    @if (!string.IsNullOrEmpty(Model))
+    {
+        <p>Hello, @Model !</p>
+    }
+    @if(@FirstName != null)
+    {
+        <p class="contained-headingAnfal">Hello, @FirstName!</p>
+
+
+    }
+
     <div class="section-section">
         <h1 class="contained-heading">
             <span class="contained-heading">Sweets And Treats Enjoy!</span>
@@ -55,7 +72,19 @@
 
 </body>
     <style>
-       
+/*------------------------------------------------ anfal---------------------------------------------------- */
+
+
+    .contained-headingAnfal {
+        color: #54352b; /* Text color */
+        font-family: Fantasy, sans-serif; /* Font family */
+        font-size: 30px; /* Font size */
+        margin-right: 15px; /* Spacing between text and image */
+    }
+
+/*------------------------------------------------ anfal---------------------------------------------------- */
+
+
         .section-section {
             background-color: white; /* רקע לבן */
             width: 70%; /* רוחב האזור */
