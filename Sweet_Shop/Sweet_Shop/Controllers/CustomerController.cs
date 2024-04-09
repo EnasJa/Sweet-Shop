@@ -156,6 +156,15 @@ namespace Sweet_Shop.Controllers
             }
             return View("CustomerRegistration");
         }
+
+        public IActionResult LogOut()
+        {
+            // Clear all session data
+            HttpContext.Session.Clear();
+
+            // Redirect to the login page
+            return RedirectToAction("LogInForCustomer");
+        }
     }
 }    
     
