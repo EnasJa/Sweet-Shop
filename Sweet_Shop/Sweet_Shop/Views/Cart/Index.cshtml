@@ -42,6 +42,7 @@ else
             <li>
                     <img src="@cartItem.Product.imageUrl" alt="@cartItem.Product.Name" width="100" height="100">
                 @*<h3>@cartItem.Product.Name</h3>*@
+                <p>@cartItem.Product.Name</p>
                 <p>Price: @(cartItem.Product.IsOnSale ? cartItem.Product.salePrice : cartItem.Product.price)</p>
                @* <p>Quantity: @cartItem.Quantity</p>*@
                 <form asp-controller="Cart" asp-action="UpdateQuantity" method="post">
