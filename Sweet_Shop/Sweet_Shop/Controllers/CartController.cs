@@ -37,7 +37,7 @@ public class CartController : Controller
         cart.AddToCart(product);
         SaveCart(cart);
 
-        return RedirectToAction("Index");
+        return RedirectToAction("ViewProducts","Products" );
     }
 
     public IActionResult RemoveFromCart(int productId)
