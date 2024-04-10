@@ -14,6 +14,7 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Sweet_Shop.Extensions;
+using System.Data;
 //using Dapper;
 
 namespace Project.Controllers
@@ -498,7 +499,7 @@ namespace Project.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT Id, productId,Message, IsRead, CustomerId FROM Notifications WHERE CustomerId = @CustomerId";
+                string query = "SELECT Id, productId,Message, IsRead, CustomerId FROM Notifications  WHERE productId = @productId";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@productId", productId);
@@ -511,7 +512,7 @@ namespace Project.Controllers
                     Notification notification = new Notification
                     {
                         Id = (int)reader["Id"],
-                        productId = (int)reader["productId"],
+                        productId = reader["productId"].ToString(),
                         Message = reader["Message"].ToString(),
                         IsRead = (bool)reader["IsRead"],
                         CustomerId = reader["CustomerId"].ToString()
@@ -537,7 +538,7 @@ namespace Project.Controllers
                 {
                     string query = "UPDATE Notifications SET IsRead = 1 WHERE Id = @NotificationId";
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@NotificationId", notificationId);
+                    command.Parameters.AddWithValue("@NotificationId", notificationId.Id) ;
                     command.ExecuteNonQuery();
                 }
             }
@@ -546,7 +547,7 @@ namespace Project.Controllers
 
 
         [HttpPost]
-        public IActionResult SetNotifications(int productId, string CustomerId)
+        public IActionResult SetNotifications(string   productId, string CustomerId)
         {
             // Create a new Notification object
             var notification = new Notification
@@ -581,11 +582,61 @@ namespace Project.Controllers
                 connection.Close(); // Close the connection
             }
 
-            // Rest of your code...
+            return RedirectToAction("NotificationConfirmation");
+        }
+        public IActionResult NotificationConfirmation()
+        {
+        
+            return View();
+
         }
 
-        /////////////////////////////////////////////////////////////ANFAL//////////////////////////////////
-        private bool Update(Product product)
+        public IActionResult NotificationsPage()
+        {
+            // Get the current customer ID from the session
+            string  currentCustomerId = HttpContext.Session.GetString("CustomerID");
+
+            // Retrieve notifications for the current customer where IsRead = 1
+            List<Notification> notifications = GetNotificationsByCustomerId(currentCustomerId);
+
+            // Pass filtered notifications to the view
+            return View("Notificationspages", notifications);
+        }
+        public List<Notification> GetNotificationsByCustomerId(string customerId)
+        {
+            List<Notification> notifications = new List<Notification>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Id, productId, Message, IsRead, CustomerId FROM Notifications WHERE CustomerId = @CustomerId AND IsRead = 1";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Notification notification = new Notification
+                    {
+                        Id = (int)reader["Id"],
+                        productId = reader["productId"].ToString(),
+                        Message = reader["Message"].ToString(),
+                        IsRead = (bool)reader["IsRead"],
+                        CustomerId = reader["CustomerId"].ToString()
+                    };
+
+                    notifications.Add(notification);
+                }
+
+                reader.Close();
+            }
+
+            return notifications;
+        }
+    
+    /////////////////////////////////////////////////////////////ANFAL//////////////////////////////////
+    private bool Update(Product product)
         {
             try
             {

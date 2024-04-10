@@ -1,0 +1,68 @@
+﻿@model List<Sweet_Shop.Models.Notification>
+
+<h1>Notifications</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No notifications found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var notification in Model)
+        {
+            <li>
+                <strong>Product ID:</strong> @notification.productId <br />
+                <strong>Message:</strong> @notification.Message <br />
+                <strong>Customer ID:</strong> @notification.CustomerId <br />
+            </li>
+        }
+    </ul>
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+    strong {
+        color: #54352b;
+    }
+
+    .notification {
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+</style>

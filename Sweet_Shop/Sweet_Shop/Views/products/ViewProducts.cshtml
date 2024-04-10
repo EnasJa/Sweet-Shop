@@ -320,16 +320,17 @@
                                 <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="btn btn-primary">Add to Cart</a>
                             }
                             else{
-                                if (!string.IsNullOrEmpty(ViewData["CustomerId"] as string) && product.stock == 0)
-                                {
-                                    <form asp-controller="Products" asp-action="SetNotifications">
-                                        <input type="hidden" name="productId" value="@product.Id" />
-                                      
-                                        <input type="hidden" name="CustomerId" value="CustomerId" />
-                                        <button type="submit" class="btn btn-warning">Notify Me</button>
-                                    </form>
-                                }
+                              
                                 <a class="btn btn-primary">empty stock</a>
+                            }
+                            @if (!string.IsNullOrEmpty(ViewData["CustomerId"] as string) && product.stock == 0)
+                            {
+                            <form asp-controller="Products" asp-action="SetNotifications">
+                                <input type="hidden" name="productId" value="@product.Id" />
+
+                                <input type="hidden" name="CustomerId" value="@ViewData["CustomerId"]" />
+                                <button type="submit" class="btn btn-warning">Notify Me</button>
+                            </form>
                             }
                             <a asp-controller="Cart" asp-action="buyNow" asp-route-productId="@product.Id" class="btn btn-primary">buy Now</a>
 
