@@ -587,7 +587,7 @@ namespace Project.Controllers
         public IActionResult NotificationConfirmation()
         {
         
-            return View();
+            return View("Anfal");
 
         }
 
