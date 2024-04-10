@@ -1,4 +1,4 @@
-﻿@model List<int>
+﻿@model List<(int,Sweet_Shop.Models.Notification)>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +77,26 @@
 </head>
 <body>
     <div class="shopping-cart-container">
+
+        <h2>Notifications</h2>
+        @if (Model.Any())
+        {
+            <ul>
+                @foreach (var tuple in Model)
+                {
+                    var notification = tuple.Item2;
+
+                    <li>
+                        <p>Notification: @notification.Message</p> <!-- Accessing the Message property -->
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No new notifications</p>
+        }
+
         <h2>Order History</h2>
 
         <ul>

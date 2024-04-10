@@ -13,6 +13,7 @@ using Sweet_Shop.ViewModels;
 using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Sweet_Shop.Extensions;
 //using Dapper;
 
 namespace Project.Controllers
@@ -232,6 +233,11 @@ namespace Project.Controllers
 
         public IActionResult ViewProducts(string sortOrder, string category, string IsOnSale, string searchString, string priceRange)
         {
+            // Retrieve customer ID from session
+            var customerId = HttpContext.Session.GetString("CustomerID");
+
+            // Pass the customer ID to the view
+            ViewData["CustomerId"] = customerId;
             List<Product> products = new List<Product>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -463,7 +469,12 @@ namespace Project.Controllers
 
                 if (Update(updatedProduct)) // Assuming UpdateProduct is a static method in Product class
                 {
+
+                    List<Notification> notifications = GetNotifications(updatedProduct.Id);
+                    UpdateNotifications(notifications);
+
                     Console.WriteLine("The product with id = " + updatedProduct.Id + " has been updated.");
+
                     // Optionally, perform additional actions after successful update
                     return RedirectToAction("manageProducts"); // Redirect to home page or another action
                 }
@@ -478,6 +489,102 @@ namespace Project.Controllers
                 return View("Edit", updatedProduct); // Return to edit view with validation errors
             }
         }
+        /////////////////////////////////////////////////////////////ANFAL//////////////////////////////////
+
+        // Method to retrieve notifications for a specific customer
+        public List<Notification> GetNotifications(int productId)
+        {
+            List<Notification> notifications = new List<Notification>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Id, productId,Message, IsRead, CustomerId FROM Notifications WHERE CustomerId = @CustomerId";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@productId", productId);
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Notification notification = new Notification
+                    {
+                        Id = (int)reader["Id"],
+                        productId = (int)reader["productId"],
+                        Message = reader["Message"].ToString(),
+                        IsRead = (bool)reader["IsRead"],
+                        CustomerId = reader["CustomerId"].ToString()
+                    };
+
+                    notifications.Add(notification);
+                }
+
+                reader.Close();
+            }
+
+            return notifications; // Return the notifications to a view
+        }
+
+        // Method to update the IsRead property of notifications
+        public void UpdateNotifications(List<Notification> notificationIds)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                foreach (Notification notificationId in notificationIds)
+                {
+                    string query = "UPDATE Notifications SET IsRead = 1 WHERE Id = @NotificationId";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@NotificationId", notificationId);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+        }
+
+
+        [HttpPost]
+        public IActionResult SetNotifications(int productId, string CustomerId)
+        {
+            // Create a new Notification object
+            var notification = new Notification
+            {
+                productId = productId,
+                Message = $"The product {productId} is available.",
+                IsRead = false,
+                CustomerId = CustomerId // Assuming CustomerId is passed from the form
+            };
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open(); // Open the connection
+
+                string getMaxIdQuery = "SELECT MAX(Id) FROM Notifications";
+                SqlCommand getMaxIdCommand = new SqlCommand(getMaxIdQuery, connection);
+                int currentMaxId = Convert.ToInt32(getMaxIdCommand.ExecuteScalar());
+
+                // Increment the current maximum Id by one to generate the Id for the new notification
+                int newNotificationId = currentMaxId + 1;
+
+                // Insert the new notification with the generated Id
+                string insertQuery = "INSERT INTO Notifications (Id, productId, Message, IsRead, CustomerId) VALUES (@Id, @productId, @Message, @IsRead, @CustomerId)";
+                SqlCommand insertCommand = new SqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@Id", newNotificationId);
+                insertCommand.Parameters.AddWithValue("@productId", productId);
+                insertCommand.Parameters.AddWithValue("@Message", $"The product {productId} is available.");
+                insertCommand.Parameters.AddWithValue("@IsRead", false); // Assuming the notification is initially unread
+                insertCommand.Parameters.AddWithValue("@CustomerId", CustomerId);
+                insertCommand.ExecuteNonQuery();
+
+                connection.Close(); // Close the connection
+            }
+
+            // Rest of your code...
+        }
+
+        /////////////////////////////////////////////////////////////ANFAL//////////////////////////////////
         private bool Update(Product product)
         {
             try
@@ -547,7 +654,7 @@ namespace Project.Controllers
             }
         }
 
-      
+
         private bool DeleteProduct(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -564,8 +671,70 @@ namespace Project.Controllers
                 }
             }
         }
+        //private void UpdateNotificationMessage(Product updatedProduct)
+        //{
+        //    // Retrieve the dictionary of product notification messages from session
+        //    Dictionary<int, string> productNotifications = HttpContext.Session.GetObject<Dictionary<int, string>>("ProductNotifications");
+
+        //    if (productNotifications != null)
+        //    {
+        //        // Check if the product's ID exists in the dictionary
+        //        if (productNotifications.ContainsKey(updatedProduct.Id))
+        //        {
+        //            // Update the notification message for the product
+        //            productNotifications[updatedProduct.Id] = $"The product '{updatedProduct.Name}' is now available for sale.";
+        //        }
+
+        //        // Save the updated dictionary back to session
+        //        HttpContext.Session.SetObject("ProductNotifications", productNotifications);
+        //    }
+        //}
 
 
+
+        //////////////////////////////////notify///////////////////////
+        ///
+        [HttpPost]
+        public IActionResult Notify(int productId, string productName)
+        {
+            // Call your update stock function passing the productId
+            //CreateNotification(productId);
+
+            // Optionally, you can use the additional information like productName for further processing
+            // For example, you might want to log the product name that the user requested notification for
+
+            // Redirect the user to a different page after the stock is updated or any other action you want
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public IActionResult EditStock(int id)
+        //{
+        //    int flag = 0;
+        //    Product product = GetProductById(id);
+
+        //    if (product != null)
+        //    {
+        //        if (product.stock == 0)
+        //        {
+        //            flag = 1;
+        //        }
+        //        return View("EditStock", product);
+        //    }
+        //    return RedirectToAction("manageProducts");
+        //}
 
 
         //// Method to update the stock of the product
@@ -593,11 +762,12 @@ namespace Project.Controllers
         //        Console.WriteLine("Error updating stock: " + ex.Message);
         //        return false; // Update failed
         //    }
-        //}
-
+      //}
     }
-    
+
 }
+
+
 
 
 
