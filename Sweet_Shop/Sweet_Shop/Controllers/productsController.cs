@@ -771,21 +771,17 @@ namespace Project.Controllers
 
 
 
-        //public IActionResult EditStock(int id)
-        //{
-        //    int flag = 0;
-        //    Product product = GetProductById(id);
+        public IActionResult EditStock(int id)
+        {
+            Product product = GetProductById(id);
 
-        //    if (product != null)
-        //    {
-        //        if (product.stock == 0)
-        //        {
-        //            flag = 1;
-        //        }
-        //        return View("EditStock", product);
-        //    }
-        //    return RedirectToAction("manageProducts");
-        //}
+            if (product != null)
+            {
+                
+                return View("EditStock", product);
+            }
+            return RedirectToAction("manageProducts");
+        }
 
 
         //// Method to update the stock of the product
@@ -813,7 +809,7 @@ namespace Project.Controllers
         //        Console.WriteLine("Error updating stock: " + ex.Message);
         //        return false; // Update failed
         //    }
-      //}
+        //}
     }
 
 }

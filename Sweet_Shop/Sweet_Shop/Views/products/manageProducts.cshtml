@@ -90,6 +90,9 @@
             <thead>
                 <tr>
                     <th>
+                        @Html.DisplayNameFor(model => model[0].Id)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model[0].Name)
                     </th>
                     <th>
@@ -118,6 +121,9 @@
                 {
                     <tr>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
@@ -141,8 +147,8 @@
                         <td>
                             <a asp-action="showProductEdit" asp-route-id="@item.Id">Edit</a> |
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-@*                            <a asp-action="EditStock" asp-route-id="@item.Id">EditStock</a>
-*@                        </td>
+                            <a asp-action="EditStock" asp-route-id="@item.Id">EditStock</a>
+                        </td>
                     </tr>
                 }
             </tbody>
