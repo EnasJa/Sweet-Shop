@@ -16,7 +16,7 @@ namespace Sweet_Shop.Models
         public float price { get; set; }
 
         [Required(ErrorMessage = "Stock is required")]
-        [Range(0, 1000, ErrorMessage = "Stock must be between 0 and 1000")]
+        [Range(1, 1000, ErrorMessage = "Stock must be between 1 and 1000")]
         public int stock { get; set; }
 
         [Required(ErrorMessage = "Sale Price is required")]

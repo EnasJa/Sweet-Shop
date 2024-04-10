@@ -250,7 +250,8 @@ public class CartController : Controller
                         {
                             Ordering(cartforOre);
                         }
-
+                        ClearCart(cart);
+                        SaveCart(cart); 
                         // Commit the transaction
                         transaction.Commit();
 
