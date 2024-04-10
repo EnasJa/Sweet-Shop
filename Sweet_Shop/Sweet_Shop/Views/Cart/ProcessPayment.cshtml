@@ -62,47 +62,6 @@
 
 
 
-@*
-<form asp-controller="Cart" asp-action="Checkout" method="post">
-    <div>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="FirstName" required pattern="^[A-Z][a-zA-Z]*$" />
-        <div class="text-danger">
-            @Html.ValidationMessageFor(model => model.FirstName)
-        </div>
-    </div>
-    <div>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="LastName" required pattern="^[A-Z][a-zA-Z]*$" />
-        <div class="text-danger">
-            @Html.ValidationMessageFor(model => model.LastName)
-        </div>
-    </div>
-    <div>
-        <label for="Districts ">Districts :</label>
-        <input type="text" id="Districts " name="Districts " required />
-    </div>
-    <div>
-        <label for="city">City/Village:</label>
-        <input type="text" id="city" name="City" required />
-    </div>
-    <div>
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="tel" id="phoneNumber" name="PhoneNumber" required pattern="^\d{10}$" />
-    <div class="text-danger">
-            @Html.ValidationMessageFor(model => model.Phone)
-    </div>
-</div>
-<div>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="Email" required pattern="^[a-zA-Z0-9._%+-]+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
-    <div class="text-danger">
-        @Html.ValidationMessageFor(model => model.Email)
-    </div>
-</div>
-
-    <button type="submit">Checkout</button>
-</form> *@
 <style>
     body {
         font-family: Fantasy, sans-serif;

@@ -32,10 +32,7 @@ namespace Sweet_Shop.Controllers
 
             return View();
         }
-        //public IActionResult Profile()
-        //{
-        //    return View("CustomerProfile");
-        //}
+       
         public IActionResult LogInForCustomer()
         {
             return View("LogInForCustomer", new CustomerModel());
@@ -98,7 +95,6 @@ namespace Sweet_Shop.Controllers
         
         }
 
-            // ModelState אינו תקין, תחזור לדף ההתחברות עם הודעת שגיאה
           
 
 

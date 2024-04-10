@@ -40,52 +40,7 @@ namespace Project.Controllers
             return View();
         }
 
-        //public IActionResult AddProduct(Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            using (SqlConnection connection = new SqlConnection(connectionString))
-        //            {
-        //                connection.Open();
-        //                string query = "INSERT INTO Products (Name, Price, Stock, SalePrice, ImageUrl, Category, IsOnSale) " +
-        //                               "VALUES (@Name, @Price, @Stock, @SalePrice, @ImageUrl, @Category, @IsOnSale)";
-
-        //                SqlCommand command = new SqlCommand(query, connection);
-        //                command.Parameters.AddWithValue("@Name", product.Name);
-        //                command.Parameters.AddWithValue("@Price", product.price);
-        //                command.Parameters.AddWithValue("@Stock", product.stock);
-        //                command.Parameters.AddWithValue("@SalePrice", product.salePrice);
-        //                command.Parameters.AddWithValue("@ImageUrl", product.imageUrl);
-        //                command.Parameters.AddWithValue("@Category", product.category);
-        //                command.Parameters.AddWithValue("@IsOnSale", product.IsOnSale);
-
-        //                int rowsAffected = command.ExecuteNonQuery();
-
-        //                if (rowsAffected > 0)
-        //                {
-        //                    // Insertion successful
-        //                    return RedirectToAction("manageProducts");
-        //                }
-        //                else
-        //                {
-        //                    // Insertion failed
-        //                    ViewBag.Message = "Failed to insert product data.";
-        //                    return View("addProduct", product);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            // Handle exceptions, log errors, etc.
-        //            ViewBag.Message = "An error occurred while processing the request.";
-        //            return View("addProduct", product);
-        //        }
-        //    }
-        //    ViewBag.Categories = new List<string> { "Raw materials for baking ", "Icing and decorating cakes", "Cake packaging", "Baking Tools" };
-        //    return View("addProduct", product);
-        //}
+       
         private bool SQLCheckProduct(string productName, string imageUrl)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -722,27 +677,7 @@ namespace Project.Controllers
                 }
             }
         }
-        //private void UpdateNotificationMessage(Product updatedProduct)
-        //{
-        //    // Retrieve the dictionary of product notification messages from session
-        //    Dictionary<int, string> productNotifications = HttpContext.Session.GetObject<Dictionary<int, string>>("ProductNotifications");
-
-        //    if (productNotifications != null)
-        //    {
-        //        // Check if the product's ID exists in the dictionary
-        //        if (productNotifications.ContainsKey(updatedProduct.Id))
-        //        {
-        //            // Update the notification message for the product
-        //            productNotifications[updatedProduct.Id] = $"The product '{updatedProduct.Name}' is now available for sale.";
-        //        }
-
-        //        // Save the updated dictionary back to session
-        //        HttpContext.Session.SetObject("ProductNotifications", productNotifications);
-        //    }
-        //}
-
-
-
+     
         //////////////////////////////////notify///////////////////////
         ///
         [HttpPost]
@@ -760,17 +695,6 @@ namespace Project.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         public IActionResult EditStock(int id)
         {
             Product product = GetProductById(id);
@@ -784,32 +708,6 @@ namespace Project.Controllers
         }
 
 
-        //// Method to update the stock of the product
-        //public bool UpdateStock(int newStock)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(connectionString))
-        //        {
-        //            connection.Open();
-        //            string query = @"UPDATE Products SET Stock = @newStock WHERE Id = @id";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                command.Parameters.AddWithValue("@newStock", newStock);
-
-        //                int rowsAffected = command.ExecuteNonQuery();
-        //                return rowsAffected > 0; // Return true if the update was successful
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Handle the exception (log, rethrow, etc.)
-        //        Console.WriteLine("Error updating stock: " + ex.Message);
-        //        return false; // Update failed
-        //    }
-        //}
     }
 
 }
