@@ -30,9 +30,8 @@ Follow these steps to set up the project on your local machine:
 
 ### Steps:
 
-1. **Clone the repository:**
-
    ```bash
+   1. **Clone the repository:**
    git clone https://github.com/your-username/candy-store-ecommerce.git
 
    Open the project:
